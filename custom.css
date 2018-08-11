@@ -1,0 +1,118 @@
+h1 {
+    font-size: 42pt;
+    word-break: break-all;
+}
+
+body#login-body {
+    background-image: url("img/login_bg.jpg");
+}
+
+login-button-img {
+    width: 32px;
+    height: 32px;
+}
+
+section#imgSlider{
+    width: 100%;
+}
+
+.single-slide-div {
+    width: 100%;
+}
+
+.carousel-custom-style {
+    background-color: #808080;
+    height: 695px;
+}
+
+@media screen and (max-width: 400px) {
+    h1 {
+        font-size: 28pt;
+        word-break: break-all;
+    }
+    .carousel-custom-style {
+        background-color: #808080;
+        height: 300px;
+    }
+}
+
+@media screen and (max-width: 800px) and (min-width: 400px) {
+    h1 {
+        font-size: 32pt;
+        word-break: break-all;
+    }
+    .carousel-custom-style {
+        background-color: #808080;
+        height: 400px;
+    }
+}
+
+li a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+/* album grid */
+
+/* Center website */
+.main {
+    max-width: 1000px;
+    margin: auto;
+}
+
+/* .row {
+    margin: 8px -16px;
+} */
+
+/* Add padding BETWEEN each column (if you want) */
+/* .row, */
+.row > .column {
+    padding: 8px;
+}
+
+/* Create four equal columns that floats next to each other */
+.column {
+    float: left;
+    width: 25%;
+}
+
+/* Clear floats after rows */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Content */
+.content {
+    background-color: white;
+    padding: 10px;
+}
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 1200px) and (min-width: 760px) {
+    .column {
+        width: 33.3%;
+    }
+}
+
+@media screen and (max-width: 760px) and (min-width: 400px) {
+    .column {
+        width: 50%;
+    }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 400px) {
+    .column {
+        width: 100%;
+    }
+}
+
+/* Album Grid */
+
+footer#footer {
+    height: 5% !important;
+    color: #fff;
+}
