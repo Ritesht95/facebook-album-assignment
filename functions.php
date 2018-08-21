@@ -34,9 +34,9 @@ function getAccessToken($helper)
 }
 
 /* Gettign Basic User Details with Album list */
-function getUserData($fb, $accessToken)
+function getUserData($fb)
 {
-    $response = $fb->get('/me?fields=name,id,email,albums', $accessToken);
+    $response = $fb->get('/me?fields=name,id,email,albums', $_SESSION['fb_access_token']);
     $user = $response->getGraphuser();
 
     return $user;
@@ -44,12 +44,12 @@ function getUserData($fb, $accessToken)
 /* Gettign Basic User Details with Album list */
     
 
-function getAlbumCover($fb, $accessToken, $albumID)
+function getAlbumCover($fb, $albumID)
 {
     try {
         $response = $fb->get(
             '/'.$albumID.'?fields=cover_photo',
-            $accessToken
+            $_SESSION['fb_access_token']
         );
     } catch (Facebook\Exceptions\FacebookResponseException $e) {
         echo 'Graph returned an error: ' . $e->getMessage();
@@ -62,12 +62,12 @@ function getAlbumCover($fb, $accessToken, $albumID)
     return $albumCover;
 }
 
-function getAllAlbumImages($fb, $accessToken, $albumID)
+function getAllAlbumImages($fb, $albumID)
 {
     try {
         $response = $fb->get(
             '/'.$albumID.'/photos?limit=500',
-            $accessToken
+            $_SESSION['fb_access_token']
         );
     } catch (Facebook\Exceptions\FacebookResponseException $e) {
         echo 'Graph returned an error: ' . $e->getMessage();
@@ -82,14 +82,14 @@ function getAllAlbumImages($fb, $accessToken, $albumID)
 }
 
 
-function getCoverImageDetails($fb, $accessToken, $albumCover)
+function getCoverImageDetails($fb, $albumCover)
 {
     try {
         $existCoverPhoto = isset($albumCover['cover_photo']);
         if (count($albumCover) > 0 && $existCoverPhoto == 1) {
             $response = $fb->get(
                 '/'.$albumCover['cover_photo']['id']."?fields=images",
-                $accessToken
+                $_SESSION['fb_access_token']
             );
         }
     } catch (Facebook\Exceptions\FacebookResponseException $e) {
@@ -113,13 +113,13 @@ function getCoverImageDetails($fb, $accessToken, $albumCover)
     return $coverImage;
 }
 
-function getImageDetails($fb, $accessToken, $image)
+function getImageDetails($fb, $image)
 {
     try {
         if (count($image) > 0) {
             $response = $fb->get(
                 '/'.$image['id'].'?fields=name,id,created_time,images',
-                $accessToken
+                $_SESSION['fb_access_token']
             );
         }
     } catch (Facebook\Exceptions\FacebookResponseException $e) {
