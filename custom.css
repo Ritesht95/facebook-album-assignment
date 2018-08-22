@@ -40,7 +40,16 @@ section#imgSlider {
 
 .carousel-custom-style {
   background-color: #000;
-  height: 710px;
+  min-height: 710px;
+  height: 100%;
+}
+
+.carousel-img {
+  min-height: 1000px;
+  max-height: 1080px;
+  height: auto 100%;
+  width: 100%;
+  object-fit: fill;
 }
 
 section#album-grid{

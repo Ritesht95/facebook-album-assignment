@@ -3,6 +3,8 @@ require_once "./config.php";
 
 set_time_limit(300);
 
+/* Funtion that Create zip of an Album with Images */
+
 function CreateAlbumZip($albumID, $fb)
 {
     try {
@@ -23,6 +25,10 @@ function CreateAlbumZip($albumID, $fb)
     }
 }
 
+/* Funtion that Create zip of an Album with Images */
+
+/* Fetches Images of single Album*/
+
 try {
     if (isset($_REQUEST['AlbumID'])) {
         $zipFile = CreateAlbumZip($_REQUEST['AlbumID'], $fb);
@@ -31,6 +37,10 @@ try {
 } catch (Exception $e) {
     echo "NULL";
 }
+
+/* Fetches Images of single Album*/
+
+/* Fetches Images from Multiple Albums*/
 
 try {
     if (isset($_REQUEST['AlbumIDs'])) {
@@ -49,29 +59,36 @@ try {
     echo "NULL";
 }
 
-if (isset($_REQUEST['AlbumIDForSlider'])) {
-    $allImages = getAllAlbumImages($fb, $_REQUEST['AlbumIDForSlider']);
-    for ($i=0; $i < count($allImages); $i++) {
-        $imageDetails = getImageDetails($fb, $allImages[$i]);
-        if ($i == 0) {
-            echo "<div class=\"carousel-item active\">
+/* Fetches Images from Multiple Albums*/
+
+/* Fetches Images from Single Album for Carousel*/
+
+try {
+    if (isset($_REQUEST['AlbumIDForSlider'])) {
+        $allImages = getAllAlbumImages($fb, $_REQUEST['AlbumIDForSlider']);
+        for ($i=0; $i < count($allImages); $i++) {
+            $imageDetails = getImageDetails($fb, $allImages[$i]);
+            if ($i == 0) {
+                echo "<div class=\"carousel-item active\" style=\"border: 1px solid;\">
+                                <div class=\"img\">
+                                    <div class=\"single-slide-div\" style=\"border:1px solid;\">
+                                        <img src=".$imageDetails['images'][1]['source']." class=\"carousel-img img-responsive\">
+                                    </div>
+                                </div>
+                            </div>";
+            } else {
+                echo "<div class=\"carousel-item\" style=\"border: 1px solid;\">
                             <div class=\"img\">
-                                <div class=\"single-slide-div\" style=\"border:1px solid;\">
-                                    ".$imageDetails['name'].
-                                    "<img src=".$imageDetails['images'][1]['source']." 
-                                    style=\"height:100%;width:100%;object-fit:contain;\">
+                                <div class=\"single-slide-div\">
+                                    <img src=".$imageDetails['images'][1]['source']." class=\"carousel-img img-responsive\">
                                 </div>
                             </div>
                         </div>";
-        } else {
-            echo "<div class=\"carousel-item\">
-                        <div class=\"img\">
-                            <div class=\"single-slide-div\">"
-                                .$imageDetails['name'].
-                                "<img src=".$imageDetails['images'][1]['source']." style=\"height: 100%; width: 100%; object-fit: contain;\">
-                            </div>
-                        </div>
-                    </div>";
+            }
         }
     }
+} catch (Exception $e) {
+    echo "<center><h1>Sorry, Couldn't fetch Images!</h1></center>";
 }
+
+/* Fetches Images from Single Album for Carousel*/

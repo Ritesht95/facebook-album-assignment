@@ -72,7 +72,8 @@ if (!isset($_SESSION['fb_access_token'])) {
         <section id="album-grid">
             <h1 class="jumbotron">Your Albums
                 <div class="clearfix"></div>
-                <button id="btnDownloadAll" class="btn btn-primary" onclick="makeAllAlbumZip();">Download All Albums</button>
+                <button id="btnDownloadAll" data-toggle="modal" data-target="#loaderModal" 
+                    class="btn btn-primary" onclick="makeAllAlbumZip();">Download All Albums</button>
                 <button id="btnBackupAll" class="btn btn-primary">Save All to Drive</button>
             </h1>
             <div class="container-fluid">
@@ -87,7 +88,8 @@ if (!isset($_SESSION['fb_access_token'])) {
                                 <img src="<?php echo $coverImage['images'][3]['source']; ?>" style="width:100%;"
                                     alt="Album Cover">
                                 <h3>
-                                    <a>
+                                    <a style="cursor: pointer;" onclick="openCarousel
+                                            ('<?php echo $user['albums'][$i]['id']; ?>');">
                                         <?php echo $user['albums'][$i]['name']; ?>
                                     </a>
                                 </h3>
@@ -98,8 +100,7 @@ if (!isset($_SESSION['fb_access_token'])) {
                                             onchange="changeAlbumBG(this.id, this.checked);">
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <button class="btn btn-primary" onclick="openCarousel
-                                            ('<?php echo $user['albums'][$i]['id']; ?>');">
+                                        <button class="btn btn-primary">
                                             <i class="fa fa-cloud-upload-alt"></i>
                                         </button>
                                     </div>
@@ -112,7 +113,7 @@ if (!isset($_SESSION['fb_access_token'])) {
                             </div>
                         </div>
                     </div>
-                    <?php
+                        <?php
                     }
                     ?>
                 </div>
@@ -300,6 +301,7 @@ if (!isset($_SESSION['fb_access_token'])) {
         }
 
         function openCarousel(albumID) {
+            $('#loaderModal').modal('toggle');
             document.getElementById('divCarouselOuter').style.display = "block";
             element = document.getElementById('imgCarousel');
             if (element.requestFullscreen) {
@@ -319,6 +321,7 @@ if (!isset($_SESSION['fb_access_token'])) {
                         if (req.status == 200) {
                             var resText = req.responseText;
                             if (resText != 'NULL') {
+                                $('#loaderModal').modal('toggle');
                                 document.getElementById('divCarouselInner').innerHTML = resText;
                             }
                         } else {
