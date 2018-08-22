@@ -9,23 +9,47 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
 </head>
+<script>
+   var gLoginFlag =0;
+</script>
 <?php
 
         require_once "./config.php";
-
-        // $_SESSION['FBRLH_state']=$_GET['state'];
+        require_once "./lib/googleDrive_Functions.php";
 
 if (!isset($_SESSION['fb_access_token'])) {
     $accessToken = getAccessToken($helper);
     $_SESSION['fb_access_token'] = (string)$accessToken;
 }
-        //  echo ":".$_SESSION['fb_access_token'].":";
         $user = getUserData($fb, $_SESSION['fb_access_token']);
+        $_SESSION['UserID'] = $user['id'];
+        $_SESSION['Name'] = str_replace(" ", "", $user['name']);
+
+if (isset($_SESSION['gAuthCode'])) {
+?>
+<script>
+   gLoginFlag = 1;
+</script>
+<?php
+    global $CLIENT_ID, $CLIENT_SECRET, $REDIRECT_URI;
+    $client = new Google_Client();
+    $client->setClientId($CLIENT_ID);
+    $client->setClientSecret($CLIENT_SECRET);
+    $client->setRedirectUri($REDIRECT_URI);
+    $client->setScopes('email');
+
+    $authUrl = $client->createAuthUrl();
+    getCredentials($_SESSION['gAuthCode'], $authUrl);
+}
 ?>
 
 <body>
-    <button id="btnDownloadSelected" class="btn btn-primary" data-toggle="modal" data-target="#loaderModal" onclick="makeMultipleAlbumZip();">
-        Download Selected</button>
+    <div class="divSelected" id="divSelectedButtons">
+        <button id="btnDownloadSelected" class="btn btn-primary" data-toggle="modal" data-target="#loaderModal" onclick="makeMultipleAlbumZip();">
+            Download Selected</button>
+        <button id="btnMoveSelected" class="btn btn-primary" data-toggle="modal" data-target="#loaderModal">
+            Move Selected to Drive</button>
+    </div>
     <div class="modal fade" data-backdrop="static" data-keyboard="false" id="loaderModal" tabindex="-1" role="dialog" aria-labelledby="loaderModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -39,6 +63,20 @@ if (!isset($_SESSION['fb_access_token'])) {
             </div>
         </div>
     </div>
+
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" 
+        id="googleLoginModal" tabindex="-1" role="dialog" aria-labelledby="googleLoginModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row google-login-outer" id="divGoogleLogin">
+                        <a href="googleLogin.php" class="btn btn-primary">Google Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
         <a class="navbar-brand text-info" href="#">rtCamp Facebook Assignment</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -81,7 +119,9 @@ if (!isset($_SESSION['fb_access_token'])) {
                     <?php
                     for ($i=0; $i < count($user['albums']); $i++) {
                         $albumCover = getAlbumCover($fb, $user['albums'][$i]['id']);
-                        $coverImage = getCoverImageDetails($fb, $albumCover); ?>
+                        $coverImage = getCoverImageDetails($fb, $albumCover); 
+                        if (isset($coverImage)) {
+                            ?>
                     <div class="column">
                         <div class="column-inner">
                             <div class="content text-center content-custom" id="divContent<?php echo $user['albums'][$i]['id']; ?>">
@@ -99,13 +139,18 @@ if (!isset($_SESSION['fb_access_token'])) {
                                             id="chkAlbum_<?php echo $user['albums'][$i]['id']; ?>"
                                             onchange="changeAlbumBG(this.id, this.checked);">
                                     </div>
+                                    <!-- data-toggle="modal" data-target="#googleLoginModal" -->
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <button class="btn btn-primary">
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#googleLoginModal" onclick="uploadToDrive(
+                                                '<?php echo $user['albums'][$i]['id']; ?>', 
+                                                '<?php echo $user['albums'][$i]['name']; ?>'
+                                            );">
                                             <i class="fa fa-cloud-upload-alt"></i>
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <button data-toggle="modal" data-target="#loaderModal" class="btn btn-primary" onclick="makeSingleAlbumZip('<?php echo $user['albums'][$i]['id']; ?>');">
+                                        <button data-toggle="modal" data-target="#loaderModal" class="btn btn-primary" 
+                                            onclick="makeSingleAlbumZip('<?php echo $user['albums'][$i]['id']; ?>','<?php echo $user['albums'][$i]['name']; ?>');">
                                             <i class="fa fa-download"></i>
                                         </button>
                                     </div>
@@ -114,6 +159,7 @@ if (!isset($_SESSION['fb_access_token'])) {
                         </div>
                     </div>
                         <?php
+                        }
                     }
                     ?>
                 </div>
@@ -126,33 +172,6 @@ if (!isset($_SESSION['fb_access_token'])) {
     <footer id="footer" class="bg-dark mt-3">
         &nbsp; &copy; Ritesh Tailor
     </footer>
-
-    <!-- Modal -->
-    <div class="modal fade" id="albumDetailsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">album</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <img src="img/dark_blue_bg.jpg.jpg" alt="User's Image" class="rounded-circle" height="100" width="250">
-                            <div class="col-md-9">
-                                <h1>Ritesh Tailor</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="row" id="divCarouselOuter">
         <section id="imgSlider">
@@ -187,9 +206,9 @@ if (!isset($_SESSION['fb_access_token'])) {
                 }
             };
             if (selectedCount == 0) {
-                document.getElementById('btnDownloadSelected').style.display = "none";
+                document.getElementById('divSelectedButtons').style.display = "none";
             } else {
-                document.getElementById('btnDownloadSelected').style.display = "block";
+                document.getElementById('divSelectedButtons').style.display = "block";
             }
             if (value) {
                 var element = document.getElementById('divContent' + id.split("_")[1]);
@@ -206,8 +225,8 @@ if (!isset($_SESSION['fb_access_token'])) {
             }
         }
 
-        function makeSingleAlbumZip(albumID) {
-            var strURL = "downloadAlbum.php?AlbumID=" + albumID;
+        function makeSingleAlbumZip(albumID, albumName) {
+            var strURL = "downloadAlbum.php?AlbumID=" + albumID + "&AlbumName=" + albumName;
             var req = new XMLHttpRequest();
             if (req) {
                 req.onreadystatechange = function() {
@@ -334,14 +353,50 @@ if (!isset($_SESSION['fb_access_token'])) {
             }
         }
 
-            function exitHandler() {
-                if (!(document.fullscreenElement ||
-                        document.webkitFullscreenElement ||
-                        document.mozFullScreenElement ||
-                        document.msFullscreenElement)) {
-                    document.getElementById('divCarouselOuter').style.display = "none";
+        function uploadToDrive(albumID, albumName) {
+            if(gLoginFlag == 0) {
+                $('#googleLoginModal').modal('toggle');
+            } else {
+                var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID+"&albumName="+albumName;
+                var req = new XMLHttpRequest();
+                if (req) {
+                    req.onreadystatechange = function() {
+                        if (req.readyState == 4) {
+                            if (req.status == 200) {
+                                var resText = req.responseText;
+                                if (resText == 'Success') {
+                                    $('#googleLoginModal').modal('toggle');
+                                }
+                            } else {
+                                alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+                            }
+                        }
+                    }
+                    req.open("GET", strURL, true);
+                    req.send(null);
                 }
             }
+        }
+
+        function multipleUploadsToDrive() {
+            var allCheckboxes = document.getElementsByClassName('album-checkbox');
+            var selectedAlbums = "";
+            for (i = 0; i < allCheckboxes.length; i++) {
+                if (allCheckboxes[i].checked) {
+                    selectedAlbums += allCheckboxes[i].id.split('_')[1] + "_";
+                }
+            }
+            selectedAlbums = selectedAlbums.slice(0, -1);
+        }
+
+        function exitHandler() {
+            if (!(document.fullscreenElement ||
+                document.webkitFullscreenElement ||
+                document.mozFullScreenElement ||
+                document.msFullscreenElement)) {
+                document.getElementById('divCarouselOuter').style.display = "none";
+            }
+        }
     </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

@@ -1,16 +1,22 @@
 <?php
+
 require_once "./config.php";
 
 set_time_limit(300);
 
 /* Funtion that Create zip of an Album with Images */
 
-function CreateAlbumZip($albumID, $fb)
+function CreateAlbumZip($albumID, $fb, $albumName = "")
 {
     try {
         $allImages = getAllAlbumImages($fb, $albumID);
         $zipArchive = new ZipArchive();
-        $zipFile = $albumID.".zip";
+        if ($albumName != "") {
+            $zipFile = $albumName.".zip";
+        } else {
+            $zipFile = $albumID.".zip";
+        }
+        
         if ($zipArchive->open('downloads/'.$zipFile, ZIPARCHIVE::CREATE) != true) {
             die("Couldn't generate zip file");
         }
@@ -30,8 +36,8 @@ function CreateAlbumZip($albumID, $fb)
 /* Fetches Images of single Album*/
 
 try {
-    if (isset($_REQUEST['AlbumID'])) {
-        $zipFile = CreateAlbumZip($_REQUEST['AlbumID'], $fb);
+    if (isset($_REQUEST['AlbumID']) && isset($_REQUEST['AlbumName'])) {
+        $zipFile = CreateAlbumZip($_REQUEST['AlbumID'], $_REQUEST['AlbumName'], $fb);
         echo "Success_downloads/".$zipFile;
     }
 } catch (Exception $e) {
