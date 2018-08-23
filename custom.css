@@ -48,6 +48,9 @@ section#imgSlider {
   background-color: #000;
   min-height: 710px;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .carousel-img {
@@ -123,7 +126,7 @@ li a {
 
 .content-custom {
   border-radius: 7% 7% 7%;
-  
+  background-color: #e9ecef;
 }
 
 .content-custom img {

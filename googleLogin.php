@@ -17,24 +17,31 @@
     <?php
         session_start();
         require_once "./lib/googleDrive_Functions.php";
-        $googleAuthUrl = getAuthorizationUrl("", "");
+
+        global $CLIENT_ID, $CLIENT_SECRET, $REDIRECT_URI;
+        $client = new Google_Client();
+        $client->setClientId($CLIENT_ID);
+        $client->setClientSecret($CLIENT_SECRET);
+        $client->setRedirectUri($REDIRECT_URI);
+        $client->setScopes('email');
+
+        $authUrl = $client->createAuthUrl();
 
     if (isset($_REQUEST['code'])) {
-        // echo $_REQUEST['code'];
-        $_SESSION['gAuthCode'] = $_REQUEST['code'];
-        // echo $_SESSION['gAuthCode'];    
+        getCredentials($_REQUEST['code'], $authUrl);
         header("Location: home.php");
     } else {
+        $googleAuthUrl = getAuthorizationUrl("", "");
+        echo "<script>window.location = ".$googleAuthUrl."</script>";
         ?>
-        <div class="mt-5 container jumbotron">
+        <!-- <div class="mt-5 container jumbotron">
         <div class=" col-lg-6 col-md-6 col-sm-10 col-xs-10">
             <h1>Google Login (To upload albums on google drive)</h1>
             <br>
                 <a id="btnGoogleLogin" class="btn btn-primary col-lg-8 col-md-8 col-sm-8 col-xs-8" 
-                    href='<?php echo $googleAuthUrl; ?>'>Google Login</a>
+                    href=''>Google Login</a>
         </div>
-    </div>
-    
+    </div> -->    
         <?php
     }
     ?>
@@ -47,3 +54,16 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
+
+        
+
+if (!isset($_COOKIE['credentials'])) {
+?>
+<script>
+   gLoginFlag = 1;
+</script>
+<?php
+    
+    
+}
+?>

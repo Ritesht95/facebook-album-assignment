@@ -1,9 +1,7 @@
 <?php
 
 require_once "./config.php";
-
-set_time_limit(300);
-
+ini_set('max_execution_time', 300);//for 300 seconds
 /* Funtion that Create zip of an Album with Images */
 
 function CreateAlbumZip($albumID, $fb, $albumName = "")
@@ -17,6 +15,9 @@ function CreateAlbumZip($albumID, $fb, $albumName = "")
             $zipFile = $albumID.".zip";
         }
         
+        if (!file_exists("downloads")) {
+            mkdir("downloads");
+        }
         if ($zipArchive->open('downloads/'.$zipFile, ZIPARCHIVE::CREATE) != true) {
             die("Couldn't generate zip file");
         }
@@ -38,7 +39,11 @@ function CreateAlbumZip($albumID, $fb, $albumName = "")
 try {
     if (isset($_REQUEST['AlbumID']) && isset($_REQUEST['AlbumName'])) {
         $zipFile = CreateAlbumZip($_REQUEST['AlbumID'], $fb, $_REQUEST['AlbumName']);
-        echo "Success_downloads/".$zipFile;
+        if ($zipFile != "NULL") {
+            echo "Success_downloads/".$zipFile;
+        } else {
+            echo "NULL";
+        }
     }
 } catch (Exception $e) {
     echo "NULL";

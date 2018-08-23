@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
 </head>
-<script>
-   var gLoginFlag =0;
-</script>
 <?php
 
         require_once "./config.php";
@@ -25,22 +22,6 @@ if (!isset($_SESSION['fb_access_token'])) {
         $_SESSION['UserID'] = $user['id'];
         $_SESSION['Name'] = str_replace(" ", "", $user['name']);
 
-if (isset($_SESSION['gAuthCode'])) {
-?>
-<script>
-   gLoginFlag = 1;
-</script>
-<?php
-    global $CLIENT_ID, $CLIENT_SECRET, $REDIRECT_URI;
-    $client = new Google_Client();
-    $client->setClientId($CLIENT_ID);
-    $client->setClientSecret($CLIENT_SECRET);
-    $client->setRedirectUri($REDIRECT_URI);
-    $client->setScopes('email');
-
-    $authUrl = $client->createAuthUrl();
-    getCredentials($_SESSION['gAuthCode'], $authUrl);
-}
 ?>
 
 <body>
@@ -64,8 +45,8 @@ if (isset($_SESSION['gAuthCode'])) {
         </div>
     </div>
 
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" 
-        id="googleLoginModal" tabindex="-1" role="dialog" aria-labelledby="googleLoginModal" aria-hidden="true">
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="googleLoginModal" tabindex="-1" role="dialog" aria-labelledby="googleLoginModal"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -109,10 +90,8 @@ if (isset($_SESSION['gAuthCode'])) {
         <section id="album-grid">
             <h1 class="jumbotron">Your Albums
                 <div class="clearfix"></div>
-                <button id="btnDownloadAll" data-toggle="modal" data-target="#loaderModal" 
-                    class="btn btn-primary" onclick="makeAllAlbumZip();">Download All Albums</button>
-                <button id="btnBackupAll" class="btn btn-primary"
-                    onclick="allUploadsToDrive();">Save All to Drive</button>
+                <button id="btnDownloadAll" data-toggle="modal" data-target="#loaderModal" class="btn btn-primary" onclick="makeAllAlbumZip();">Download All Albums</button>
+                <button id="btnBackupAll" class="btn btn-primary" onclick="allUploadsToDrive();">Save All to Drive</button>
             </h1>
             <div class="container-fluid">
                 <div class="row">
@@ -124,8 +103,7 @@ if (isset($_SESSION['gAuthCode'])) {
                             ?>
                     <div class="column">
                         <div class="column-inner">
-                            <div class="content text-center content-custom" 
-                                id="divContent<?php echo $user['albums'][$i]['id']; ?>">
+                            <div class="content text-center content-custom" id="divContent<?php echo $user['albums'][$i]['id']; ?>">
                                 <img src="<?php echo $coverImage['images'][3]['source']; ?>" style="width:100%;"
                                     alt="Album Cover">
                                 <h3>
@@ -136,8 +114,7 @@ if (isset($_SESSION['gAuthCode'])) {
                                 </h3>
                                 <div id="album-footer" class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <input type="checkbox" class="album-checkbox" 
-                                            name="chkAlbum<?php echo $user['albums'][$i]['id'].'-'.$user['albums'][$i]['name']; ?>"
+                                        <input type="checkbox" class="album-checkbox" name="chkAlbum<?php echo $user['albums'][$i]['id'].'-'.$user['albums'][$i]['name']; ?>"
                                             id="chkAlbum_<?php echo $user['albums'][$i]['id'].'-'.$user['albums'][$i]['name']; ?>"
                                             onchange="changeAlbumBG(this.id, this.checked);">
                                     </div>
@@ -150,8 +127,7 @@ if (isset($_SESSION['gAuthCode'])) {
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <button class="btn btn-primary" 
-                                            onclick="makeSingleAlbumZip('<?php echo $user['albums'][$i]['id']; ?>',
+                                        <button class="btn btn-primary" onclick="makeSingleAlbumZip('<?php echo $user['albums'][$i]['id']; ?>',
                                                     '<?php echo $user['albums'][$i]['name']; ?>');">
                                             <i class="fa fa-download"></i>
                                         </button>
@@ -160,7 +136,7 @@ if (isset($_SESSION['gAuthCode'])) {
                             </div>
                         </div>
                     </div>
-                        <?php
+                    <?php
                         }
                     }
                     ?>
@@ -179,7 +155,7 @@ if (isset($_SESSION['gAuthCode'])) {
         <section id="imgSlider">
             <div id="imgCarousel" class="carousel slide" data-ride="carousel">
                 <div id="divCarouselInner" class="carousel-inner text-center carousel-custom-style" role="listbox">
-                    
+                    <div id="divLoader" class="loader"></div>
                 </div>
                 <a class="carousel-control-prev" href="#imgCarousel" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -198,6 +174,22 @@ if (isset($_SESSION['gAuthCode'])) {
         document.addEventListener('mozfullscreenchange', exitHandler, false);
         document.addEventListener('fullscreenchange', exitHandler, false);
         document.addEventListener('MSFullscreenChange', exitHandler, false);
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
 
         function changeAlbumBG(id, value) {
             var allCheckboxes = document.getElementsByClassName('album-checkbox');
@@ -228,6 +220,7 @@ if (isset($_SESSION['gAuthCode'])) {
         }
 
         function makeSingleAlbumZip(albumID, albumName) {
+            document.getElementById('loaderOuter')
             $('#loaderModal').modal('toggle');
             var strURL = "downloadAlbum.php?AlbumID=" + albumID + "&AlbumName=" + albumName;
             var req = new XMLHttpRequest();
@@ -323,9 +316,9 @@ if (isset($_SESSION['gAuthCode'])) {
         }
 
         function openCarousel(albumID) {
-            $('#loaderModal').modal('toggle');
             document.getElementById('divCarouselOuter').style.display = "block";
             element = document.getElementById('imgCarousel');
+            document.getElementById('divCarouselInner').innerHTML = "<div id=\"divLoader\" class=\"loader\"></div>";
             if (element.requestFullscreen) {
                 element.requestFullscreen();
             } else if (element.mozRequestFullScreen) {
@@ -343,7 +336,6 @@ if (isset($_SESSION['gAuthCode'])) {
                         if (req.status == 200) {
                             var resText = req.responseText;
                             if (resText != 'NULL') {
-                                $('#loaderModal').modal('toggle');
                                 document.getElementById('divCarouselInner').innerHTML = resText;
                             }
                         } else {
@@ -357,13 +349,12 @@ if (isset($_SESSION['gAuthCode'])) {
         }
 
         function uploadToDrive(albumID, albumName) {
-            if(gLoginFlag == 0) {
+            if(getCookie('credentials') == "") {
                 $('#googleLoginModal').modal('toggle');
-                document.getElementById('loaderText').innerText = "Moving album to drive";
             } else {
                 $('#loaderModal').modal('toggle');
                 document.getElementById('loaderText').innerText = "Moving album to drive";
-                var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID+"&albumName="+albumName;
+                var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID + "&albumName=" + albumName;
                 var req = new XMLHttpRequest();
                 if (req) {
                     req.onreadystatechange = function() {
@@ -371,7 +362,8 @@ if (isset($_SESSION['gAuthCode'])) {
                             if (req.status == 200) {
                                 var resText = req.responseText;
                                 if (resText == 'Success') {
-                                    document.getElementById('divLoaderOuter').innerHTML = "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">Album moved to drive</h4>";
+                                    document.getElementById('divLoaderOuter').innerHTML =
+                                        "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">Album moved to drive</h4>";
                                     setTimeout(() => {
                                         $('#loaderModal').modal('toggle');
                                     }, 3000);
@@ -396,8 +388,8 @@ if (isset($_SESSION['gAuthCode'])) {
                 }
             }
             selectedAlbums = selectedAlbums.slice(0, -1);
-            if(gLoginFlag == 0) {
-                $('#googleLoginModal').modal('toggle');                
+            if(getCookie('credentials') == "") {
+                $('#googleLoginModal').modal('toggle');
             } else {
                 $('#loaderModal').modal('toggle');
                 document.getElementById('loaderText').innerText = "Moving selected albums to drive";
@@ -409,7 +401,8 @@ if (isset($_SESSION['gAuthCode'])) {
                             if (req.status == 200) {
                                 var resText = req.responseText;
                                 if (resText == 'Success') {
-                                    document.getElementById('divLoaderOuter').innerHTML = "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">Selected albums moved to drive</h4>";
+                                    document.getElementById('divLoaderOuter').innerHTML =
+                                        "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">Selected albums moved to drive</h4>";
                                     setTimeout(() => {
                                         $('#loaderModal').modal('toggle');
                                     }, 3000);
@@ -425,14 +418,14 @@ if (isset($_SESSION['gAuthCode'])) {
             }
         }
 
-        function allUploadsToDrive() { 
+        function allUploadsToDrive() {
             var allCheckboxes = document.getElementsByClassName('album-checkbox');
             var selectedAlbums = "";
             for (i = 0; i < allCheckboxes.length; i++) {
                 selectedAlbums += allCheckboxes[i].id.split('_')[1] + "_";
             }
             selectedAlbums = selectedAlbums.slice(0, -1);
-            if(gLoginFlag == 0) {
+            if(getCookie('credentials') == "") {
                 $('#googleLoginModal').modal('toggle');
             } else {
                 document.getElementById('loaderText').innerText = "Moving all albums to drive";
@@ -445,11 +438,12 @@ if (isset($_SESSION['gAuthCode'])) {
                             if (req.status == 200) {
                                 var resText = req.responseText;
                                 if (resText == 'Success') {
-                                    document.getElementById('divLoaderOuter').innerHTML = "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">All albums moved to drive</h4>";
+                                    document.getElementById('divLoaderOuter').innerHTML =
+                                        "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">All albums moved to drive</h4>";
                                     setTimeout(() => {
                                         $('#loaderModal').modal('toggle');
                                     }, 3000);
-                                    
+
                                 }
                             } else {
                                 alert("There was a problem while using XMLHTTP:\n" + req.statusText);
@@ -465,9 +459,9 @@ if (isset($_SESSION['gAuthCode'])) {
 
         function exitHandler() {
             if (!(document.fullscreenElement ||
-                document.webkitFullscreenElement ||
-                document.mozFullScreenElement ||
-                document.msFullscreenElement)) {
+                    document.webkitFullscreenElement ||
+                    document.mozFullScreenElement ||
+                    document.msFullscreenElement)) {
                 document.getElementById('divCarouselOuter').style.display = "none";
             }
         }
