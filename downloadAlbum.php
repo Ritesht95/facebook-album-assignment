@@ -53,7 +53,8 @@ try {
         $arrAlbumIDs = explode('_', $_REQUEST['AlbumIDs']);
         $zipFilesPath = "Success";
         foreach ($arrAlbumIDs as $albumID) {
-            $zipFile = CreateAlbumZip($albumID, $fb);
+            $album_ID_Name = explode('-', $albumID);
+            $zipFile = CreateAlbumZip($album_ID_Name[0], $fb, $album_ID_Name[1]);
             if ($zipFile == "NULL") {
                 continue;
             }
