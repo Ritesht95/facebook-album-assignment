@@ -1,5 +1,4 @@
 <?php
-
 function getAccessToken($helper)
 {
     try {

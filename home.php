@@ -97,9 +97,8 @@ if (isset($_SESSION['gAuthCode'])) {
                         <?php echo $user['name']; ?>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Action</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="#">Logout</a>
+                        <a class="dropdown-item text-danger" href="logout.php">Logout</a>
                     </div>
                 </li>
             </ul>
@@ -120,7 +119,7 @@ if (isset($_SESSION['gAuthCode'])) {
                     <?php
                     for ($i=0; $i < count($user['albums']); $i++) {
                         $albumCover = getAlbumCover($fb, $user['albums'][$i]['id']);
-                        $coverImage = getCoverImageDetails($fb, $albumCover); 
+                        $coverImage = getCoverImageDetails($fb, $albumCover);
                         if (isset($coverImage)) {
                             ?>
                     <div class="column">
@@ -143,7 +142,7 @@ if (isset($_SESSION['gAuthCode'])) {
                                             onchange="changeAlbumBG(this.id, this.checked);">
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <button class="btn btn-primary" data-toggle="modal" data-target="#googleLoginModal" onclick="uploadToDrive(
+                                        <button class="btn btn-primary" onclick="uploadToDrive(
                                                 '<?php echo $user['albums'][$i]['id']; ?>', 
                                                 '<?php echo $user['albums'][$i]['name']; ?>'
                                             );">
@@ -151,8 +150,9 @@ if (isset($_SESSION['gAuthCode'])) {
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                        <button data-toggle="modal" data-target="#loaderModal" class="btn btn-primary" 
-                                            onclick="makeSingleAlbumZip('<?php echo $user['albums'][$i]['id']; ?>','<?php echo $user['albums'][$i]['name']; ?>');">
+                                        <button class="btn btn-primary" 
+                                            onclick="makeSingleAlbumZip('<?php echo $user['albums'][$i]['id']; ?>',
+                                                    '<?php echo $user['albums'][$i]['name']; ?>');">
                                             <i class="fa fa-download"></i>
                                         </button>
                                     </div>
@@ -228,6 +228,7 @@ if (isset($_SESSION['gAuthCode'])) {
         }
 
         function makeSingleAlbumZip(albumID, albumName) {
+            $('#loaderModal').modal('toggle');
             var strURL = "downloadAlbum.php?AlbumID=" + albumID + "&AlbumName=" + albumName;
             var req = new XMLHttpRequest();
             if (req) {
@@ -358,7 +359,10 @@ if (isset($_SESSION['gAuthCode'])) {
         function uploadToDrive(albumID, albumName) {
             if(gLoginFlag == 0) {
                 $('#googleLoginModal').modal('toggle');
+                document.getElementById('loaderText').innerText = "Moving album to drive";
             } else {
+                $('#loaderModal').modal('toggle');
+                document.getElementById('loaderText').innerText = "Moving album to drive";
                 var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID+"&albumName="+albumName;
                 var req = new XMLHttpRequest();
                 if (req) {
@@ -367,7 +371,10 @@ if (isset($_SESSION['gAuthCode'])) {
                             if (req.status == 200) {
                                 var resText = req.responseText;
                                 if (resText == 'Success') {
-                                    $('#googleLoginModal').modal('toggle');
+                                    document.getElementById('divLoaderOuter').innerHTML = "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">Album moved to drive</h4>";
+                                    setTimeout(() => {
+                                        $('#loaderModal').modal('toggle');
+                                    }, 3000);
                                 }
                             } else {
                                 alert("There was a problem while using XMLHTTP:\n" + req.statusText);
@@ -390,9 +397,10 @@ if (isset($_SESSION['gAuthCode'])) {
             }
             selectedAlbums = selectedAlbums.slice(0, -1);
             if(gLoginFlag == 0) {
-                $('#googleLoginModal').modal('toggle');
+                $('#googleLoginModal').modal('toggle');                
             } else {
-
+                $('#loaderModal').modal('toggle');
+                document.getElementById('loaderText').innerText = "Moving selected albums to drive";
                 var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums;
                 var req = new XMLHttpRequest();
                 if (req) {
@@ -401,7 +409,10 @@ if (isset($_SESSION['gAuthCode'])) {
                             if (req.status == 200) {
                                 var resText = req.responseText;
                                 if (resText == 'Success') {
-                                    $('#googleLoginModal').modal('toggle');
+                                    document.getElementById('divLoaderOuter').innerHTML = "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">Selected albums moved to drive</h4>";
+                                    setTimeout(() => {
+                                        $('#loaderModal').modal('toggle');
+                                    }, 3000);
                                 }
                             } else {
                                 alert("There was a problem while using XMLHTTP:\n" + req.statusText);
@@ -424,7 +435,8 @@ if (isset($_SESSION['gAuthCode'])) {
             if(gLoginFlag == 0) {
                 $('#googleLoginModal').modal('toggle');
             } else {
-
+                document.getElementById('loaderText').innerText = "Moving all albums to drive";
+                $('#loaderModal').modal('toggle');
                 var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums;
                 var req = new XMLHttpRequest();
                 if (req) {
@@ -433,7 +445,11 @@ if (isset($_SESSION['gAuthCode'])) {
                             if (req.status == 200) {
                                 var resText = req.responseText;
                                 if (resText == 'Success') {
-                                    $('#googleLoginModal').modal('toggle');
+                                    document.getElementById('divLoaderOuter').innerHTML = "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">All albums moved to drive</h4>";
+                                    setTimeout(() => {
+                                        $('#loaderModal').modal('toggle');
+                                    }, 3000);
+                                    
                                 }
                             } else {
                                 alert("There was a problem while using XMLHTTP:\n" + req.statusText);

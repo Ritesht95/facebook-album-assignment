@@ -37,7 +37,7 @@ function CreateAlbumZip($albumID, $fb, $albumName = "")
 
 try {
     if (isset($_REQUEST['AlbumID']) && isset($_REQUEST['AlbumName'])) {
-        $zipFile = CreateAlbumZip($_REQUEST['AlbumID'], $_REQUEST['AlbumName'], $fb);
+        $zipFile = CreateAlbumZip($_REQUEST['AlbumID'], $fb, $_REQUEST['AlbumName']);
         echo "Success_downloads/".$zipFile;
     }
 } catch (Exception $e) {
