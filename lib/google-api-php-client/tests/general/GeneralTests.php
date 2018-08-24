@@ -32,24 +32,25 @@ require_once "ApiOAuth2Test.php";
 require_once "ServiceTest.php";
 require_once "URITemplateTest.php";
 
-class GeneralTests extends PHPUnit_Framework_TestSuite {
-
-  public static function suite() {
-    $suite = new PHPUnit_Framework_TestSuite('Google API PHP Library core component tests');
-    $suite->addTestSuite('AuthTest');
-    $suite->addTestSuite('CacheTest');
-    $suite->addTestSuite('IoTest');
-    $suite->addTestSuite('ServiceTest');
-    $suite->addTestSuite('ApiBatchRequestTest');
-    $suite->addTestSuite('ApiClientTest');
-    $suite->addTestSuite('ApiModelTest');
-    $suite->addTestSuite('ApiOAuth2Test');
-    $suite->addTestSuite('ApiCacheParserTest');
-    $suite->addTestSuite('ApiMediaFileUploadTest');
-    $suite->addTestSuite('RestTest');
-    $suite->addTestSuite('RequestTest');
-    $suite->addTestSuite('ServiceTest');
-    $suite->addTestSuite('URITemplateTest');
-    return $suite;
-  }
+class GeneralTests extends PHPUnit_Framework_TestSuite
+{
+    public static function suite()
+    {
+        $suite = new PHPUnit_Framework_TestSuite('Google API PHP Library core component tests');
+        $suite->addTestSuite('AuthTest');
+        $suite->addTestSuite('CacheTest');
+        $suite->addTestSuite('IoTest');
+        $suite->addTestSuite('ServiceTest');
+        $suite->addTestSuite('ApiBatchRequestTest');
+        $suite->addTestSuite('ApiClientTest');
+        $suite->addTestSuite('ApiModelTest');
+        $suite->addTestSuite('ApiOAuth2Test');
+        $suite->addTestSuite('ApiCacheParserTest');
+        $suite->addTestSuite('ApiMediaFileUploadTest');
+        $suite->addTestSuite('RestTest');
+        $suite->addTestSuite('RequestTest');
+        $suite->addTestSuite('ServiceTest');
+        $suite->addTestSuite('URITemplateTest');
+        return $suite;
+    }
 }

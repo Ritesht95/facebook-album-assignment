@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 session_start();
-include_once "templates/base.php";
+require_once "templates/base.php";
 
 /************************************************
-  Make an API request authenticated via the 
+  Make an API request authenticated via the
   AppIdentity service on AppEngine.
  ************************************************/
 require_once realpath(dirname(__FILE__) . '/../autoload.php');
@@ -31,7 +31,7 @@ $client->setApplicationName("Client_Library_Examples");
 $auth = new Google_Auth_AppIdentity($client);
 $token = $auth->authenticateForScope(Google_Service_Storage::DEVSTORAGE_READ_ONLY);
 if (!$token) {
-  die("Could not authenticate to AppIdentity service");
+    die("Could not authenticate to AppIdentity service");
 }
 $client->setAuth($auth);
 

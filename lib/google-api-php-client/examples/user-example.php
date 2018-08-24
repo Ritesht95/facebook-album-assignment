@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-include_once "templates/base.php";
+require_once "templates/base.php";
 session_start();
 
 require_once realpath(dirname(__FILE__) . '/../autoload.php');
@@ -54,7 +54,7 @@ $service = new Google_Service_Urlshortener($client);
   local access token in this case
  ************************************************/
 if (isset($_REQUEST['logout'])) {
-  unset($_SESSION['access_token']);
+    unset($_SESSION['access_token']);
 }
 
 /************************************************
@@ -64,10 +64,10 @@ if (isset($_REQUEST['logout'])) {
   bundle in the session, and redirect to ourself.
  ************************************************/
 if (isset($_GET['code'])) {
-  $client->authenticate($_GET['code']);
-  $_SESSION['access_token'] = $client->getAccessToken();
-  $redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-  header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+    $client->authenticate($_GET['code']);
+    $_SESSION['access_token'] = $client->getAccessToken();
+    $redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+    header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
 }
 
 /************************************************
@@ -75,9 +75,9 @@ if (isset($_GET['code'])) {
   requests, else we generate an authentication URL.
  ************************************************/
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-  $client->setAccessToken($_SESSION['access_token']);
+    $client->setAccessToken($_SESSION['access_token']);
 } else {
-  $authUrl = $client->createAuthUrl();
+    $authUrl = $client->createAuthUrl();
 }
 
 /************************************************
@@ -91,23 +91,23 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   refreshed if the application has offline access.
  ************************************************/
 if ($client->getAccessToken() && isset($_GET['url'])) {
-  $url = new Google_Service_Urlshortener_Url();
-  $url->longUrl = $_GET['url'];
-  $short = $service->url->insert($url);
-  $_SESSION['access_token'] = $client->getAccessToken();
+    $url = new Google_Service_Urlshortener_Url();
+    $url->longUrl = $_GET['url'];
+    $short = $service->url->insert($url);
+    $_SESSION['access_token'] = $client->getAccessToken();
 }
 
 echo pageHeader("User Query - URL Shortener");
-if (
-    $client_id == '<YOUR_CLIENT_ID>'
+if ($client_id == '<YOUR_CLIENT_ID>'
     || $client_secret == '<YOUR_CLIENT_SECRET>'
-    || $redirect_uri == '<YOUR_REDIRECT_URI>') {
-  echo missingClientSecretsWarning();
+    || $redirect_uri == '<YOUR_REDIRECT_URI>'
+) {
+    echo missingClientSecretsWarning();
 }
 ?>
 <div class="box">
   <div class="request">
-    <?php if (isset($authUrl)): ?>
+    <?php if (isset($authUrl)) : ?>
       <a class='login' href='<?php echo $authUrl; ?>'>Connect Me!</a>
     <?php else: ?>
       <form id="url" method="GET" action="<?php echo $_SERVER['PHP_SELF']; ?>">
@@ -118,11 +118,11 @@ if (
     <?php endif ?>
   </div>
 
-  <?php if (isset($short)): ?>
+    <?php if (isset($short)) : ?>
     <div class="shortened">
-      <?php var_dump($short); ?>
+        <?php var_dump($short); ?>
     </div>
-  <?php endif ?>
+    <?php endif ?>
 </div>
 <?php
 echo pageFooter(__FILE__);

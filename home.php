@@ -5,7 +5,7 @@
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="custom.css">
+    <link rel="stylesheet" href="./css/custom.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
 </head>
@@ -136,7 +136,7 @@ if (!isset($_SESSION['fb_access_token'])) {
                             </div>
                         </div>
                     </div>
-                    <?php
+                            <?php
                         }
                     }
                     ?>
@@ -169,28 +169,11 @@ if (!isset($_SESSION['fb_access_token'])) {
         </section>
     </div>
 
+    <script src="./js/carousel.js"></script>
+    <script src="./js/moveToDrive.js"></script>
+    <script src="./js/downloadAlbums.js"></script>
+
     <script>
-        document.addEventListener('webkitfullscreenchange', exitHandler, false);
-        document.addEventListener('mozfullscreenchange', exitHandler, false);
-        document.addEventListener('fullscreenchange', exitHandler, false);
-        document.addEventListener('MSFullscreenChange', exitHandler, false);
-
-        function getCookie(cname) {
-            var name = cname + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var ca = decodedCookie.split(';');
-            for(var i = 0; i <ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') {
-                    c = c.substring(1);
-                }
-                if (c.indexOf(name) == 0) {
-                    return c.substring(name.length, c.length);
-                }
-            }
-            return "";
-        }
-
         function changeAlbumBG(id, value) {
             var allCheckboxes = document.getElementsByClassName('album-checkbox');
             var selectedCount = 0;
@@ -216,253 +199,6 @@ if (!isset($_SESSION['fb_access_token'])) {
                 element.style.color = "black";
                 element.parentNode.style.borderColor = "#808080";
                 element.parentNode.style.boxShadow = "0.2px 0.2px 0.5px 3px #808080";
-            }
-        }
-
-        function makeSingleAlbumZip(albumID, albumName) {
-            document.getElementById('loaderOuter')
-            $('#loaderModal').modal('toggle');
-            var strURL = "downloadAlbum.php?AlbumID=" + albumID + "&AlbumName=" + albumName;
-            var req = new XMLHttpRequest();
-            if (req) {
-                req.onreadystatechange = function() {
-                    if (req.readyState == 4) {
-                        // only if "OK"
-                        if (req.status == 200) {
-                            var resText = req.responseText;
-                            var resArray = resText.split("_");
-                            if (resArray[0] === 'Success') {
-                                window.location = resArray[1];
-                                $('#loaderModal').modal('toggle');
-                            }
-                        } else {
-                            alert("There was a problem while using XMLHTTP:\n" + req.statusText);
-                        }
-                    }
-                }
-                req.open("GET", strURL, true);
-                req.send(null);
-            }
-        }
-
-        function makeMultipleAlbumZip() {
-
-            var allCheckboxes = document.getElementsByClassName('album-checkbox');
-            var selectedAlbums = "";
-            for (i = 0; i < allCheckboxes.length; i++) {
-                if (allCheckboxes[i].checked) {
-                    selectedAlbums += allCheckboxes[i].id.split('_')[1] + "_";
-                }
-            }
-            selectedAlbums = selectedAlbums.slice(0, -1);
-            var strURL = "downloadAlbum.php?AlbumIDs=" + selectedAlbums;
-            var req = new XMLHttpRequest();
-            if (req) {
-                req.onreadystatechange = function() {
-                    if (req.readyState == 4) {
-                        // only if "OK"
-                        if (req.status == 200) {
-                            var resText = req.responseText;
-                            var resArray = resText.split("_");
-                            if (resArray[0] === 'Success') {
-                                for (i = 1; i < resArray.length; i++) {
-                                    window.open(resArray[i], '_blank');
-                                }
-                                $('#loaderModal').modal('toggle');
-                            }
-                        } else {
-                            alert("There was a problem while using XMLHTTP:\n" + req.statusText);
-                        }
-                    }
-                }
-                req.open("GET", strURL, true);
-                req.send(null);
-            }
-        }
-
-        function makeAllAlbumZip() {
-
-            var allCheckboxes = document.getElementsByClassName('album-checkbox');
-            var selectedAlbums = "";
-            for (i = 0; i < allCheckboxes.length; i++) {
-                if (allCheckboxes[i]) {
-                    selectedAlbums += allCheckboxes[i].id.split('_')[1] + "_";
-                }
-            }
-            selectedAlbums = selectedAlbums.slice(0, -1);
-            var strURL = "downloadAlbum.php?AlbumIDs=" + selectedAlbums;
-            var req = new XMLHttpRequest();
-            if (req) {
-                req.onreadystatechange = function() {
-                    if (req.readyState == 4) {
-                        // only if "OK"
-                        if (req.status == 200) {
-                            var resText = req.responseText;
-                            var resArray = resText.split("_");
-                            if (resArray[0] === 'Success') {
-                                for (i = 1; i < resArray.length; i++) {
-                                    window.open(resArray[i], '_blank');
-                                }
-                                $('#loaderModal').modal('toggle');
-                            }
-                        } else {
-                            alert("There was a problem while using XMLHTTP:\n" + req.statusText);
-                        }
-                    }
-                }
-                req.open("GET", strURL, true);
-                req.send(null);
-            }
-        }
-
-        function openCarousel(albumID) {
-            document.getElementById('divCarouselOuter').style.display = "block";
-            element = document.getElementById('imgCarousel');
-            document.getElementById('divCarouselInner').innerHTML = "<div id=\"divLoader\" class=\"loader\"></div>";
-            if (element.requestFullscreen) {
-                element.requestFullscreen();
-            } else if (element.mozRequestFullScreen) {
-                element.mozRequestFullScreen();
-            } else if (element.webkitRequestFullscreen) {
-                element.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-            } else if (element.msRequestFullscreen) {
-                element.msRequestFullscreen();
-            }
-            var strURL = "downloadAlbum.php?AlbumIDForSlider=" + albumID;
-            var req = new XMLHttpRequest();
-            if (req) {
-                req.onreadystatechange = function() {
-                    if (req.readyState == 4) {
-                        if (req.status == 200) {
-                            var resText = req.responseText;
-                            if (resText != 'NULL') {
-                                document.getElementById('divCarouselInner').innerHTML = resText;
-                            }
-                        } else {
-                            alert("There was a problem while using XMLHTTP:\n" + req.statusText);
-                        }
-                    }
-                }
-                req.open("GET", strURL, true);
-                req.send(null);
-            }
-        }
-
-        function uploadToDrive(albumID, albumName) {
-            if(getCookie('credentials') == "") {
-                $('#googleLoginModal').modal('toggle');
-            } else {
-                $('#loaderModal').modal('toggle');
-                document.getElementById('loaderText').innerText = "Moving album to drive";
-                var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID + "&albumName=" + albumName;
-                var req = new XMLHttpRequest();
-                if (req) {
-                    req.onreadystatechange = function() {
-                        if (req.readyState == 4) {
-                            if (req.status == 200) {
-                                var resText = req.responseText;
-                                if (resText == 'Success') {
-                                    document.getElementById('divLoaderOuter').innerHTML =
-                                        "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">Album moved to drive</h4>";
-                                    setTimeout(() => {
-                                        $('#loaderModal').modal('toggle');
-                                    }, 3000);
-                                }
-                            } else {
-                                alert("There was a problem while using XMLHTTP:\n" + req.statusText);
-                            }
-                        }
-                    }
-                    req.open("GET", strURL, true);
-                    req.send(null);
-                }
-            }
-        }
-
-        function multipleUploadsToDrive() {
-            var allCheckboxes = document.getElementsByClassName('album-checkbox');
-            var selectedAlbums = "";
-            for (i = 0; i < allCheckboxes.length; i++) {
-                if (allCheckboxes[i].checked) {
-                    selectedAlbums += allCheckboxes[i].id.split('_')[1] + "_";
-                }
-            }
-            selectedAlbums = selectedAlbums.slice(0, -1);
-            if(getCookie('credentials') == "") {
-                $('#googleLoginModal').modal('toggle');
-            } else {
-                $('#loaderModal').modal('toggle');
-                document.getElementById('loaderText').innerText = "Moving selected albums to drive";
-                var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums;
-                var req = new XMLHttpRequest();
-                if (req) {
-                    req.onreadystatechange = function() {
-                        if (req.readyState == 4) {
-                            if (req.status == 200) {
-                                var resText = req.responseText;
-                                if (resText == 'Success') {
-                                    document.getElementById('divLoaderOuter').innerHTML =
-                                        "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">Selected albums moved to drive</h4>";
-                                    setTimeout(() => {
-                                        $('#loaderModal').modal('toggle');
-                                    }, 3000);
-                                }
-                            } else {
-                                alert("There was a problem while using XMLHTTP:\n" + req.statusText);
-                            }
-                        }
-                    }
-                    req.open("GET", strURL, true);
-                    req.send(null);
-                }
-            }
-        }
-
-        function allUploadsToDrive() {
-            var allCheckboxes = document.getElementsByClassName('album-checkbox');
-            var selectedAlbums = "";
-            for (i = 0; i < allCheckboxes.length; i++) {
-                selectedAlbums += allCheckboxes[i].id.split('_')[1] + "_";
-            }
-            selectedAlbums = selectedAlbums.slice(0, -1);
-            if(getCookie('credentials') == "") {
-                $('#googleLoginModal').modal('toggle');
-            } else {
-                document.getElementById('loaderText').innerText = "Moving all albums to drive";
-                $('#loaderModal').modal('toggle');
-                var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums;
-                var req = new XMLHttpRequest();
-                if (req) {
-                    req.onreadystatechange = function() {
-                        if (req.readyState == 4) {
-                            if (req.status == 200) {
-                                var resText = req.responseText;
-                                if (resText == 'Success') {
-                                    document.getElementById('divLoaderOuter').innerHTML =
-                                        "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">All albums moved to drive</h4>";
-                                    setTimeout(() => {
-                                        $('#loaderModal').modal('toggle');
-                                    }, 3000);
-
-                                }
-                            } else {
-                                alert("There was a problem while using XMLHTTP:\n" + req.statusText);
-                            }
-                        }
-                    }
-                    req.open("GET", strURL, true);
-                    req.send(null);
-                }
-            }
-
-        }
-
-        function exitHandler() {
-            if (!(document.fullscreenElement ||
-                    document.webkitFullscreenElement ||
-                    document.mozFullScreenElement ||
-                    document.msFullscreenElement)) {
-                document.getElementById('divCarouselOuter').style.display = "none";
             }
         }
     </script>

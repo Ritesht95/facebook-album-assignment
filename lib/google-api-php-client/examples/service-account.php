@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 session_start();
-include_once "templates/base.php";
+require_once "templates/base.php";
 
 /************************************************
   Make an API request authenticated with a service
@@ -37,14 +37,15 @@ require_once realpath(dirname(__FILE__) . '/../autoload.php');
   account as well, or the call will fail.
  ************************************************/
 $client_id = '<YOUR_CLIENT_ID>'; //Client ID
-$service_account_name = ''; //Email Address 
+$service_account_name = ''; //Email Address
 $key_file_location = ''; //key.p12
 
 echo pageHeader("Service Account Access");
 if ($client_id == '<YOUR_CLIENT_ID>'
     || !strlen($service_account_name)
-    || !strlen($key_file_location)) {
-  echo missingServiceAccountDetailsWarning();
+    || !strlen($key_file_location)
+) {
+    echo missingServiceAccountDetailsWarning();
 }
 
 $client = new Google_Client();
@@ -60,7 +61,7 @@ $service = new Google_Service_Books($client);
   the service account
  ************************************************/
 if (isset($_SESSION['service_token'])) {
-  $client->setAccessToken($_SESSION['service_token']);
+    $client->setAccessToken($_SESSION['service_token']);
 }
 $key = file_get_contents($key_file_location);
 $cred = new Google_Auth_AssertionCredentials(
@@ -69,8 +70,8 @@ $cred = new Google_Auth_AssertionCredentials(
     $key
 );
 $client->setAssertionCredentials($cred);
-if($client->getAuth()->isAccessTokenExpired()) {
-  $client->getAuth()->refreshTokenWithAssertion($cred);
+if ($client->getAuth()->isAccessTokenExpired()) {
+    $client->getAuth()->refreshTokenWithAssertion($cred);
 }
 $_SESSION['service_token'] = $client->getAccessToken();
 
@@ -82,7 +83,7 @@ $optParams = array('filter' => 'free-ebooks');
 $results = $service->volumes->listVolumes('Henry David Thoreau', $optParams);
 echo "<h3>Results Of Call:</h3>";
 foreach ($results as $item) {
-  echo $item['volumeInfo']['title'], "<br /> \n";
+    echo $item['volumeInfo']['title'], "<br /> \n";
 }
 
 echo pageFooter(__FILE__);

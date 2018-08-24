@@ -55,19 +55,19 @@ $dr_service = new Google_Service_Drive($client);
   user-example.php for details.
  ************************************************/
 if (isset($_REQUEST['logout'])) {
-  unset($_SESSION['access_token']);
+    unset($_SESSION['access_token']);
 }
 if (isset($_GET['code'])) {
-  $client->authenticate($_GET['code']);
-  $_SESSION['access_token'] = $client->getAccessToken();
-  $redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-  header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+    $client->authenticate($_GET['code']);
+    $_SESSION['access_token'] = $client->getAccessToken();
+    $redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+    header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
 }
 
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
-  $client->setAccessToken($_SESSION['access_token']);
+    $client->setAccessToken($_SESSION['access_token']);
 } else {
-  $authUrl = $client->createAuthUrl();
+    $authUrl = $client->createAuthUrl();
 }
 
 /************************************************
@@ -75,13 +75,13 @@ if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
   and a list of files from Drive.
  ************************************************/
 if ($client->getAccessToken()) {
-  $_SESSION['access_token'] = $client->getAccessToken();
+    $_SESSION['access_token'] = $client->getAccessToken();
 
-  $dr_results = $dr_service->files->listFiles(array('maxResults' => 10));
+    $dr_results = $dr_service->files->listFiles(array('maxResults' => 10));
 
-  $yt_channels = $yt_service->channels->listChannels('contentDetails', array("mine" => true));
-  $likePlaylist = $yt_channels[0]->contentDetails->relatedPlaylists->likes;
-  $yt_results = $yt_service->playlistItems->listPlaylistItems(
+    $yt_channels = $yt_service->channels->listChannels('contentDetails', array("mine" => true));
+    $likePlaylist = $yt_channels[0]->contentDetails->relatedPlaylists->likes;
+    $yt_results = $yt_service->playlistItems->listPlaylistItems(
       "snippet",
       array("playlistId" => $likePlaylist)
   );
@@ -92,23 +92,25 @@ if (
     $client_id == '<YOUR_CLIENT_ID>'
     || $client_secret == '<YOUR_CLIENT_SECRET>'
     || $redirect_uri == '<YOUR_REDIRECT_URI>') {
-  echo missingClientSecretsWarning();
+    echo missingClientSecretsWarning();
 }
 ?>
 <div class="box">
   <div class="request">
-    <?php if (isset($authUrl)) { ?>
+    <?php if (isset($authUrl)) {
+    ?>
       <a class='login' href='<?php echo $authUrl; ?>'>Connect Me!</a>
-    <?php } else {
-      echo "<h3>Results Of Drive List:</h3>";
-      foreach ($dr_results as $item) {
-        echo $item->title, "<br /> \n";
-      }
+    <?php
+} else {
+        echo "<h3>Results Of Drive List:</h3>";
+        foreach ($dr_results as $item) {
+            echo $item->title, "<br /> \n";
+        }
 
-      echo "<h3>Results Of YouTube Likes:</h3>";
-      foreach ($yt_results as $item) {
-        echo $item['snippet']['title'], "<br /> \n";
-      }
+        echo "<h3>Results Of YouTube Likes:</h3>";
+        foreach ($yt_results as $item) {
+            echo $item['snippet']['title'], "<br /> \n";
+        }
     } ?>
   </div>
 </div>

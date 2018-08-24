@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-include_once "templates/base.php";
+require_once "templates/base.php";
 echo pageHeader("Simple API Access");
 
 /************************************************
@@ -38,7 +38,7 @@ $client->setApplicationName("Client_Library_Examples");
 $apiKey = "<YOUR_API_KEY>"; // Change this line.
 // Warn if the API key isn't changed.
 if ($apiKey == '<YOUR_API_KEY>') {
-  echo missingApiKeyWarning();
+    echo missingApiKeyWarning();
 }
 $client->setDeveloperKey($apiKey);
 
@@ -67,7 +67,7 @@ $results = $service->volumes->listVolumes('Henry David Thoreau', $optParams);
  ***********************************************/
 echo "<h3>Results Of Call:</h3>";
 foreach ($results as $item) {
-  echo $item['volumeInfo']['title'], "<br /> \n";
+    echo $item['volumeInfo']['title'], "<br /> \n";
 }
 
 /************************************************
@@ -80,7 +80,7 @@ $results = $client->execute($request);
 
 echo "<h3>Results Of Deferred Call:</h3>";
 foreach ($results as $item) {
-  echo $item['volumeInfo']['title'], "<br /> \n";
+    echo $item['volumeInfo']['title'], "<br /> \n";
 }
 
 echo pageFooter(__FILE__);

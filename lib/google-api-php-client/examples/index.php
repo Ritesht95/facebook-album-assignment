@@ -1,9 +1,9 @@
 <?php
-include_once "templates/base.php";
+require_once "templates/base.php";
 if (!isWebRequest()) {
-  echo "To view this page on a webserver using PHP 5.4 or above run: \n\t
+    echo "To view this page on a webserver using PHP 5.4 or above run: \n\t
     php -S localhost:8080\n";
-  exit();
+    exit();
 }
 echo pageHeader("PHP Library Examples"); ?>
 <ul>

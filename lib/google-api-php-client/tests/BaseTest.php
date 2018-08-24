@@ -17,57 +17,59 @@
 
 require_once realpath(dirname(__FILE__) . '/../autoload.php');
 
-class BaseTest extends PHPUnit_Framework_TestCase {
-  const KEY = "<YOUR_API_KEY>";
-  private $token;
-  private $memcacheHost;
-  private $memcachePort;
+class BaseTest extends PHPUnit_Framework_TestCase
+{
+    const KEY = "<YOUR_API_KEY>";
+    private $token;
+    private $memcacheHost;
+    private $memcachePort;
   
-  public function __construct()
-  {
-    parent::__construct();
-    // Fill in a token JSON here and you can test the oauth token 
-    // requiring functions.
-    // $this->token = '';
+    public function __construct()
+    {
+        parent::__construct();
+        // Fill in a token JSON here and you can test the oauth token
+        // requiring functions.
+        // $this->token = '';
 
-    $this->memcacheHost = getenv('MEMCACHE_HOST') ? getenv('MEMCACHE_HOST') : null;
-    $this->memcachePort = getenv('MEMCACHE_PORT') ? getenv('MEMCACHE_PORT') : null;
-  }
-  
-  public function getClient() {
-      $client = new Google_Client();
-      $client->setDeveloperKey(self::KEY);
-      if (strlen($this->token)) {
-          $client->setAccessToken($this->token);
-      }
-      if (strlen($this->memcacheHost)) {
-        $client->setClassConfig('Google_Cache_Memcache', 'host', $this->memcacheHost);
-        $client->setClassConfig('Google_Cache_Memcache', 'port', $this->memcachePort);
-      }
-      return $client;
-  }
-  
-  public function testClientConstructor()
-  {
-    $this->assertInstanceOf('Google_Client', $this->getClient());
-  }
-  
-  public function testIncludes() {
-    $prefix = dirname(dirname(__FILE__)) . '/src/';
-    $path = dirname(dirname(__FILE__)) . '/src/Google/Service';
-    foreach(glob($path . "/*.php") as $file) {
-      // Munge prefix so we don't double require.
-      $this->assertEquals(1, require_once(str_replace($prefix, '', $file)));
+        $this->memcacheHost = getenv('MEMCACHE_HOST') ? getenv('MEMCACHE_HOST') : null;
+        $this->memcachePort = getenv('MEMCACHE_PORT') ? getenv('MEMCACHE_PORT') : null;
     }
-  }
   
-  public function checkToken()
-  {
-    if (!strlen($this->token)) {
-      $this->markTestSkipped('Test requires access token');
-      return false;
+    public function getClient()
+    {
+        $client = new Google_Client();
+        $client->setDeveloperKey(self::KEY);
+        if (strlen($this->token)) {
+            $client->setAccessToken($this->token);
+        }
+        if (strlen($this->memcacheHost)) {
+            $client->setClassConfig('Google_Cache_Memcache', 'host', $this->memcacheHost);
+            $client->setClassConfig('Google_Cache_Memcache', 'port', $this->memcachePort);
+        }
+        return $client;
     }
-    return true;
-  }
-
+  
+    public function testClientConstructor()
+    {
+        $this->assertInstanceOf('Google_Client', $this->getClient());
+    }
+  
+    public function testIncludes()
+    {
+        $prefix = dirname(dirname(__FILE__)) . '/src/';
+        $path = dirname(dirname(__FILE__)) . '/src/Google/Service';
+        foreach (glob($path . "/*.php") as $file) {
+            // Munge prefix so we don't double require.
+            $this->assertEquals(1, require_once(str_replace($prefix, '', $file)));
+        }
+    }
+  
+    public function checkToken()
+    {
+        if (!strlen($this->token)) {
+            $this->markTestSkipped('Test requires access token');
+            return false;
+        }
+        return true;
+    }
 }

@@ -34,14 +34,6 @@
         $googleAuthUrl = getAuthorizationUrl("", "");
         echo "<script>window.location = ".$googleAuthUrl."</script>";
         ?>
-        <!-- <div class="mt-5 container jumbotron">
-        <div class=" col-lg-6 col-md-6 col-sm-10 col-xs-10">
-            <h1>Google Login (To upload albums on google drive)</h1>
-            <br>
-                <a id="btnGoogleLogin" class="btn btn-primary col-lg-8 col-md-8 col-sm-8 col-xs-8" 
-                    href=''>Google Login</a>
-        </div>
-    </div> -->    
         <?php
     }
     ?>
