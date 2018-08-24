@@ -32,7 +32,7 @@
         header("Location: home.php");
     } else {
         $googleAuthUrl = getAuthorizationUrl("", "");
-        echo "<script>window.location = ".$googleAuthUrl."</script>";
+        echo "<script>window.location = '".$googleAuthUrl."'</script>";
         ?>
         <?php
     }
@@ -46,16 +46,3 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
-
-        
-
-if (!isset($_COOKIE['credentials'])) {
-?>
-<script>
-   gLoginFlag = 1;
-</script>
-<?php
-    
-    
-}
-?>
