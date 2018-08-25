@@ -1,4 +1,6 @@
 <?php
+
+/* Gets the Facebook Access Token */
 function getAccessToken($helper)
 {
     try {
@@ -31,8 +33,9 @@ function getAccessToken($helper)
     }
     return $accessToken;
 }
+/* Gets the Facebook Access Token */
 
-/* Gettign Basic User Details with Album list */
+/* Gets Basic User Details with Album list */
 function getUserData($fb)
 {
     $response = $fb->get('/me?fields=name,id,email,albums', $_SESSION['fb_access_token']);
@@ -40,9 +43,9 @@ function getUserData($fb)
 
     return $user;
 }
-/* Gettign Basic User Details with Album list */
+/* Gets Basic User Details with Album list */
     
-
+/* Gets album cover of given AlbumID */
 function getAlbumCover($fb, $albumID)
 {
     try {
@@ -60,7 +63,9 @@ function getAlbumCover($fb, $albumID)
     $albumCover = $response->getGraphNode();
     return $albumCover;
 }
+/* Gets album cover of given AlbumID */
 
+/* Gets All Images of given AlbumID */
 function getAllAlbumImages($fb, $albumID)
 {
     try {
@@ -79,8 +84,9 @@ function getAllAlbumImages($fb, $albumID)
 
     return $allImages;
 }
+/* Gets All Images of given AlbumID */
 
-
+/* Gets Details of given Cover Image ID */
 function getCoverImageDetails($fb, $albumCover)
 {
     try {
@@ -111,7 +117,9 @@ function getCoverImageDetails($fb, $albumCover)
 
     return $coverImage;
 }
+/* Gets Details of given Cover Image ID */
 
+/* Gets Details of given Image ID */
 function getImageDetails($fb, $image)
 {
     try {
@@ -141,3 +149,4 @@ function getImageDetails($fb, $image)
 
     return $coverImage;
 }
+/* Gets Details of given Image ID */

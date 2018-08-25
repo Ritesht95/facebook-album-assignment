@@ -1,6 +1,12 @@
-<html>
+<?php
+    require_once "./lib/googleDrive_Functions.php";
+    require_once "./config.php";
+?>
 
+<html>
 <head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
@@ -11,16 +17,19 @@
 </head>
 <?php
 
-        require_once "./config.php";
-        require_once "./lib/googleDrive_Functions.php";
+
 
 if (!isset($_SESSION['fb_access_token'])) {
+    /* if AccessToken Session is not set the gets the accessToken
+     * and set the session of it.
+    */
     $accessToken = getAccessToken($helper);
     $_SESSION['fb_access_token'] = (string)$accessToken;
 }
-        $user = getUserData($fb, $_SESSION['fb_access_token']);
-        $_SESSION['UserID'] = $user['id'];
-        $_SESSION['Name'] = str_replace(" ", "", $user['name']);
+    /* if Session is set, then gets user data and allow futher excution. */
+    $user = getUserData($fb, $_SESSION['fb_access_token']);
+    $_SESSION['UserID'] = $user['id'];
+    $_SESSION['Name'] = str_replace(" ", "", $user['name']);
 
 ?>
 
@@ -169,11 +178,8 @@ if (!isset($_SESSION['fb_access_token'])) {
         </section>
     </div>
 
-    <script src="./js/carousel.js"></script>
-    <script src="./js/moveToDrive.js"></script>
-    <script src="./js/downloadAlbums.js"></script>
-
     <script>
+        /* Changing backgound color of Album-box on selection */
         function changeAlbumBG(id, value) {
             var allCheckboxes = document.getElementsByClassName('album-checkbox');
             var selectedCount = 0;
@@ -201,14 +207,18 @@ if (!isset($_SESSION['fb_access_token'])) {
                 element.parentNode.style.boxShadow = "0.2px 0.2px 0.5px 3px #808080";
             }
         }
+        /* Changing backgound color of Album-box on selection */
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>       
+
+    <script src="./js/carousel.js"></script>
+    <script src="./js/moveToDrive.js"></script>
+    <script src="./js/downloadAlbums.js"></script>
 </body>
 
 </html>

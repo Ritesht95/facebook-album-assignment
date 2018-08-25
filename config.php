@@ -1,8 +1,10 @@
 <?php
-
-session_start();
 require_once './lib/vendor/autoload.php';
 require_once './functions.php';
+
+session_start();
+
+/* Initializing Facebook Object to call APIs  */
 
 $fb = new Facebook\Facebook(
     [
@@ -12,15 +14,13 @@ $fb = new Facebook\Facebook(
     ]
 );
 
-// $fb = new Facebook\Facebook([
-//   'app_id' => '385601321972144', // Replace {app-id} with your app id
-//   'app_secret' => '8b539b7a46ba509712859320c8a0705c',
-//   'default_graph_version' => 'v2.2',
-// ]);
-
-  
-
 $helper = $fb->getRedirectLoginHelper();
+
+
+    /*
+    * Checks for state param in query string
+    * if it gets then set the session(if not set before)
+    */
 
 if (isset($_GET['state'])) {
     if (!isset($_SESSION['state'])) {

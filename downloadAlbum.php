@@ -2,6 +2,7 @@
 
 require_once "./config.php";
 ini_set('max_execution_time', 300);//for 300 seconds
+
 /* Funtion that Create zip of an Album with Images */
 
 function CreateAlbumZip($albumID, $fb, $albumName = "")
@@ -51,7 +52,7 @@ try {
 
 /* Fetches Images of single Album*/
 
-/* Fetches Images from Multiple Albums*/
+/* Fetches Images from Multiple/All Albums*/
 
 try {
     if (isset($_REQUEST['AlbumIDs'])) {
@@ -71,7 +72,7 @@ try {
     echo "NULL";
 }
 
-/* Fetches Images from Multiple Albums*/
+/* Fetches Images from Multiple/All Albums*/
 
 /* Fetches Images from Single Album for Carousel*/
 

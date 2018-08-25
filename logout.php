@@ -1,6 +1,7 @@
 <?php
     session_start();
 
+/* Deletes the given directory */
 function deleteDirectory($dir)
 {
     if (!file_exists($dir)) {
@@ -21,6 +22,8 @@ function deleteDirectory($dir)
 }
 
     if (session_destroy()) {
+        /* Deletes the downloads directory */
         deleteDirectory('downloads');
+        /* Redirecting to login page */
         header("Location: index.php");
     }
