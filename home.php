@@ -7,6 +7,7 @@
 <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Facebook Albums Home: rtCamp Challenge</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
@@ -158,7 +159,7 @@ if (!isset($_SESSION['fb_access_token'])) {
         <br>
     </div>
     <footer id="footer" class="bg-dark mt-3">
-        &nbsp; &copy; Ritesh Tailor
+        <span style="float: right;">&copy; Designed and Developed by <strong>Ritesh Tailor<strong>&nbsp;&nbsp;</span>
     </footer>
 
     <div class="row" id="divCarouselOuter">
