@@ -1,6 +1,6 @@
-Facebook Assignment for rtCamp Solutions Private Limited. (Placement Process)
+# Facebook Assignment for rtCamp Solutions Private Limited. (Placement Process)
 
-Challenge-2: Facebook-Photos Challenge
+## Challenge-2: Facebook-Photos Challenge
 
     Create a small PHP-script to accomplish following parts:
 
@@ -35,10 +35,10 @@ Challenge-2: Facebook-Photos Challenge
 
     Note – Before submitting your challenge for review, please add Facebook profile with username ‘rtc.test‘ as tester while your app is in development mode. This will expedite the review process.
 
-Link to the Live Project: https://fbalbumrtcamp.000webhostapp.com/
-Github Project Link: https://github.com/Ritesht95/facebook-album-assignment
+## Link to the Live Project: https://fbalbumrtcamp.000webhostapp.com/
+## Github Project Link: https://github.com/Ritesht95/facebook-album-assignment
 
-User guide
+# User guide
 
     1. On the home page, The login button will allow to login using facebook and on successful authentication, user will be redirected to album list page.
     2. On album list page, clicking on name of album will open fullscreen carousel of that album's photos.
@@ -48,7 +48,7 @@ User guide
     6. User will be asked to login using his/her google account in order to move albums to drive.
     7. To logout from his/her account, there is a "Logout" option in dropdown on top-right corner of the page, which will terminate the session of user and redirect him/her to login page.
 
-External Libraries used
+# External Libraries used
 
     - Facebook PHP SDK v5: http://developers.facebook.com
     - Google drive PHP client: http://developers.google.com
