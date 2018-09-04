@@ -52,27 +52,40 @@ try {
 
 /* Fetches Images of single Album*/
 
-/* Fetches Images from Multiple/All Albums*/
+/* Fetches Images from Multiple/All Albums and Create zip File*/
 
 try {
     if (isset($_REQUEST['AlbumIDs'])) {
         $arrAlbumIDs = explode('_', $_REQUEST['AlbumIDs']);
         $zipFilesPath = "Success";
+        $zip = new ZipArchive();
+        if (file_exists("downloads/MultipleAlbums.zip")) {
+            unlink("downloads/MultipleAlbums.zip");
+        }
+        $zipFile = "MultipleAlbums.zip";
+        if ($zip->open('downloads/'.$zipFile, ZIPARCHIVE::CREATE) != true) {
+            die("Couldn't generate zip file");
+        }
         foreach ($arrAlbumIDs as $albumID) {
             $album_ID_Name = explode('-', $albumID);
-            $zipFile = CreateAlbumZip($album_ID_Name[0], $fb, $album_ID_Name[1]);
-            if ($zipFile == "NULL") {
-                continue;
+            $zip->addEmptyDir($album_ID_Name[1]);
+            $allImages = getAllAlbumImages($fb, $album_ID_Name[0]);
+            for ($i=0; $i < count($allImages); $i++) {
+                $imageDetails = getImageDetails($fb, $allImages[$i]);
+                $zip->addFromString(
+                    $album_ID_Name[1]."/".$i.".jpg",
+                    file_get_contents($imageDetails['images'][1]['source'])
+                );
             }
-            $zipFilesPath .= "_downloads/".$zipFile;
         }
+        $zipFilesPath .= "_downloads/".$zipFile;
         echo $zipFilesPath;
     }
 } catch (Exception $e) {
     echo "NULL";
 }
 
-/* Fetches Images from Multiple/All Albums*/
+/* Fetches Images from Multiple/All Albums and Create zip File*/
 
 /* Fetches Images from Single Album for Carousel*/
 

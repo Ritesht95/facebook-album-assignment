@@ -26,7 +26,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
     $json = json_decode($str, true);
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
-    $REDIRECT_URI = $json['web']['redirect_uris'][2];
+    $REDIRECT_URI = $json['web']['redirect_uris'][1];
 
     // Create a new Client
     $client = new Google_Client();

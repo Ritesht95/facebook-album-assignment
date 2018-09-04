@@ -42,10 +42,8 @@ function makeMultipleAlbumZip() {
                 if (req.status == 200) {
                     var resText = req.responseText;
                     var resArray = resText.split("_");
-                    if (resArray[0] === 'Success' || resArray[0].search('Success') != -1) {
-                        for (i = 1; i < resArray.length; i++) {
-                            window.open(resArray[i], '_blank');
-                        }
+                    if (resArray[0] === 'Success' || resArray[0].search('Success') != -1) {                        
+                        window.open(resArray[1], '_blank');
                         $('#loaderModal').modal('toggle');
                     }
                 } else {
