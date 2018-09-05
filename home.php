@@ -4,17 +4,21 @@
 ?>
 
 <html>
+
 <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Facebook Albums Home: rtCamp Challenge</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" 
+        integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
     <link rel="stylesheet" href="./css/custom.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" 
+        integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
         crossorigin="anonymous">
 </head>
 <?php
@@ -37,12 +41,15 @@ if (!isset($_SESSION['fb_access_token'])) {
 
 <body>
     <div class="divSelected" id="divSelectedButtons">
-        <button id="btnDownloadSelected" class="btn btn-primary" data-toggle="modal" data-target="#loaderModal" onclick="makeMultipleAlbumZip();">
+        <button id="btnDownloadSelected" class="btn btn-primary" data-toggle="modal" 
+            data-target="#loaderModal" onclick="makeMultipleAlbumZip();">
             Download Selected</button>
-        <button id="btnMoveSelected" class="btn btn-primary" data-toggle="modal" data-target="#loaderModal" onclick="multipleUploadsToDrive();">
+        <button id="btnMoveSelected" class="btn btn-primary" data-toggle="modal" 
+            data-target="#loaderModal" onclick="multipleUploadsToDrive();">
             Move Selected to Drive</button>
     </div>
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="loaderModal" tabindex="-1" role="dialog" aria-labelledby="loaderModalCenterTitle"
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" 
+        id="loaderModal" tabindex="-1" role="dialog" aria-labelledby="loaderModalCenterTitle"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -56,7 +63,8 @@ if (!isset($_SESSION['fb_access_token'])) {
         </div>
     </div>
 
-    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="googleLoginModal" tabindex="-1" role="dialog" aria-labelledby="googleLoginModal"
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" 
+        id="googleLoginModal" tabindex="-1" role="dialog" aria-labelledby="googleLoginModal"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -71,7 +79,8 @@ if (!isset($_SESSION['fb_access_token'])) {
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
         <a class="navbar-brand text-info" href="home.php">rtCamp Facebook Challenge</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+        <button class="navbar-toggler" type="button" data-toggle="collapse" 
+            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -83,7 +92,8 @@ if (!isset($_SESSION['fb_access_token'])) {
                     </a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         Hello,
                         <?php echo $user['name']; ?>
@@ -101,8 +111,11 @@ if (!isset($_SESSION['fb_access_token'])) {
         <section id="album-grid">
             <h1 class="jumbotron">Your Albums
                 <div class="clearfix"></div>
-                <button id="btnDownloadAll" data-toggle="modal" data-target="#loaderModal" class="btn btn-primary" onclick="makeAllAlbumZip();">Download All Albums</button>
-                <button id="btnBackupAll" class="btn btn-primary" onclick="allUploadsToDrive();">Save All to Drive</button>
+                <button id="btnDownloadAll" data-toggle="modal" 
+                    data-target="#loaderModal" class="btn btn-primary" 
+                    onclick="makeAllAlbumZip();">Download All Albums</button>
+                <button id="btnBackupAll" class="btn btn-primary" 
+                    onclick="allUploadsToDrive();">Save All to Drive</button>
             </h1>
             <div class="container-fluid">
                 <div class="row">
@@ -147,7 +160,7 @@ if (!isset($_SESSION['fb_access_token'])) {
                             </div>
                         </div>
                     </div>
-                            <?php
+                    <?php
                         }
                     }
                     ?>
@@ -159,7 +172,9 @@ if (!isset($_SESSION['fb_access_token'])) {
         <br>
     </div>
     <footer id="footer" class="bg-dark mt-3">
-        <span style="float: right;">&copy; Designed and Developed by <strong>Ritesh Tailor<strong>&nbsp;&nbsp;</span>
+        <br>
+        <span style="float: right;">&copy; Designed and Developed by
+            <strong>Ritesh Tailor</strong>&nbsp;&nbsp;</span>
     </footer>
 
     <div class="row" id="divCarouselOuter">
@@ -213,10 +228,12 @@ if (!isset($_SESSION['fb_access_token'])) {
     </script>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" 
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
-        crossorigin="anonymous"></script>       
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" 
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
 
     <script src="./js/carousel.js"></script>
     <script src="./js/moveToDrive.js"></script>

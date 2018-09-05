@@ -34,6 +34,11 @@ function uploadToDrive(albumID, albumName) {
                             setTimeout(() => {
                                 $('#loaderModal').modal('toggle');
                             }, 3000);
+                        } else {
+                            setTimeout(function(){ 
+                                document.getElementById('divLoaderOuter').innerHTML =
+                                    "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                            }, 3000);
                         }
                     } else {
                         alert("There was a problem while using XMLHTTP:\n" + req.statusText);
@@ -74,6 +79,11 @@ function multipleUploadsToDrive() {
                             setTimeout(() => {
                                 $('#loaderModal').modal('toggle');
                             }, 3000);
+                        } else {
+                            setTimeout(function(){ 
+                                document.getElementById('divLoaderOuter').innerHTML =
+                                    "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                            }, 3000);
                         }
                     } else {
                         alert("There was a problem while using XMLHTTP:\n" + req.statusText);
@@ -111,6 +121,11 @@ function allUploadsToDrive() {
                                 "<span class=\"fa fa-3x fa-check load-complete-icon text-success\"></span><h4 id=\"loaderText\">All albums moved to drive</h4>";
                             setTimeout(() => {
                                 $('#loaderModal').modal('toggle');
+                            }, 3000);
+                        } else {
+                            setTimeout(function(){ 
+                                document.getElementById('divLoaderOuter').innerHTML =
+                                    "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
                             }, 3000);
                         }
                     } else {

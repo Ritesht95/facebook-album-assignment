@@ -13,6 +13,12 @@ function makeSingleAlbumZip(albumID, albumName) {
                     if (resArray[0] === 'Success' || resArray[0].search('Success') != -1) {
                         window.location = resArray[1];
                         $('#loaderModal').modal('toggle');
+                    } else {
+                        document.getElementById('divLoaderOuter').innerHTML =
+                                "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function(){                             
+                            $('#loaderModal').modal('toggle');
+                        }, 3000);
                     }
                 } else {
                     alert("There was a problem while using XMLHTTP:\n" + req.statusText);
@@ -45,6 +51,12 @@ function makeMultipleAlbumZip() {
                     if (resArray[0] === 'Success' || resArray[0].search('Success') != -1) {                        
                         window.open(resArray[1], '_blank');
                         $('#loaderModal').modal('toggle');
+                    } else {
+                        document.getElementById('divLoaderOuter').innerHTML =
+                                "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function(){ 
+                            $('#loaderModal').modal('toggle');                            
+                        }, 3000);
                     }
                 } else {
                     alert("There was a problem while using XMLHTTP:\n" + req.statusText);
@@ -79,6 +91,12 @@ function makeAllAlbumZip() {
                             window.open(resArray[i], '_blank');
                         }
                         $('#loaderModal').modal('toggle');
+                    } else {
+                        document.getElementById('divLoaderOuter').innerHTML =
+                                "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function(){ 
+                            $('#loaderModal').modal('toggle');
+                        }, 3000);
                     }
                 } else {
                     alert("There was a problem while using XMLHTTP:\n" + req.statusText);

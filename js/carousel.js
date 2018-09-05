@@ -6,7 +6,7 @@ document.addEventListener('MSFullscreenChange', exitHandler, false);
 
 function openCarousel(albumID) {
     document.getElementById('divCarouselOuter').style.display = "block";
-    element = document.getElementById('imgCarousel');
+    element = document.getElementById('divCarouselOuter');
     document.getElementById('divCarouselInner').innerHTML = "<div id=\"divLoader\" class=\"loader\"></div>";
     if (element.requestFullscreen) {
         element.requestFullscreen();
