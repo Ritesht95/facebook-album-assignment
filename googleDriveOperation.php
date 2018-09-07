@@ -20,13 +20,12 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
     // Get the client Google credentials
     $credentials = $_COOKIE["credentials"];
 
-    $str = "{\"web\":{\"client_id\":\"59128490941-9pi7oolm20ot5h9m62ngj6g0f3e7j0pb.apps.googleusercontent.com\",\"project_id\":\"twittertemp-1533798939629\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://www.googleapis.com/oauth2/v3/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"OIDqKUtb5GpwMjM12ob6fUIV\",\"redirect_uris\":[\"http://localhost/FacebookTest/\",\"https://localhost/rtCamp_Facebook_Assignment/googleLogin.php\",\"https://fbalbumrtcamp.000webhostapp.com/googleLogin.php\"]}}";
-    // $str = "{\"web\":{\"client_id\":\"924060180240-j4p82ffhb82l7sdqck7b78ni2idaqkgd.apps.googleusercontent.com\",\"project_id\":\"facebookalbums-214405\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://www.googleapis.com/oauth2/v3/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"2cxeWLG1Q0-R9Fxai2IHUUOH\",\"redirect_uris\":[\"https://fbalbumrtcamp.000webhostapp.com/googleLogin.php\"]}}";
-    // Get your app info from JSON downloaded from google dev console
+    $str = "{\"web\":{\"client_id\":\"59128490941-9pi7oolm20ot5h9m62ngj6g0f3e7j0pb.apps.googleusercontent.com\",\"project_id\":\"twittertemp-1533798939629\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://www.googleapis.com/oauth2/v3/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"OIDqKUtb5GpwMjM12ob6fUIV\",\"redirect_uris\":[\"http://localhost/FacebookTest/\",\"https://localhost/rtCamp_Facebook_Assignment/googleLogin.php\",\"https://facebookalbums.herokuapp.com/googleLogin.php\"]}}";
+
     $json = json_decode($str, true);
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
-    $REDIRECT_URI = $json['web']['redirect_uris'][1];
+    $REDIRECT_URI = $json['web']['redirect_uris'][2];
 
     // Create a new Client
     $client = new Google_Client();
@@ -77,12 +76,12 @@ if (isset($_REQUEST['uploadAlbums'])) {
     // Get the client Google credentials
     $credentials = $_COOKIE["credentials"];
 
-    $str = "{\"web\":{\"client_id\":\"59128490941-9pi7oolm20ot5h9m62ngj6g0f3e7j0pb.apps.googleusercontent.com\",\"project_id\":\"twittertemp-1533798939629\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://www.googleapis.com/oauth2/v3/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"OIDqKUtb5GpwMjM12ob6fUIV\",\"redirect_uris\":[\"http://localhost/FacebookTest/\",\"https://localhost/rtCamp_Facebook_Assignment/googleLogin.php\"]}}";
+    $str = "{\"web\":{\"client_id\":\"59128490941-9pi7oolm20ot5h9m62ngj6g0f3e7j0pb.apps.googleusercontent.com\",\"project_id\":\"twittertemp-1533798939629\",\"auth_uri\":\"https://accounts.google.com/o/oauth2/auth\",\"token_uri\":\"https://www.googleapis.com/oauth2/v3/token\",\"auth_provider_x509_cert_url\":\"https://www.googleapis.com/oauth2/v1/certs\",\"client_secret\":\"OIDqKUtb5GpwMjM12ob6fUIV\",\"redirect_uris\":[\"http://localhost/FacebookTest/\",\"https://localhost/rtCamp_Facebook_Assignment/googleLogin.php\",\"https://facebookalbums.herokuapp.com/googleLogin.php\"]}}";
     // Get your app info from JSON downloaded from google dev console
     $json = json_decode($str, true);
     $CLIENT_ID = $json['web']['client_id'];
     $CLIENT_SECRET = $json['web']['client_secret'];
-    $REDIRECT_URI = $json['web']['redirect_uris'][0];
+    $REDIRECT_URI = $json['web']['redirect_uris'][2];
 
     // Create a new Client
     $client = new Google_Client();

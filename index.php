@@ -12,8 +12,7 @@
 <body id="login-body">
     <?php
         $permissions = ['email,user_photos']; // Optional permissions
-        $loginUrl = $helper->getLoginUrl('https://localhost/rtCamp_Facebook_Assignment/home.php', $permissions);
-        // $loginUrl = $helper->getLoginUrl('https://fbalbumrtcamp.000webhostapp.com/home.php', $permissions);
+        $loginUrl = $helper->getLoginUrl('https://facebookalbums.herokuapp.com/home.php', $permissions);
     ?>
     <div class="mt-5 container jumbotron">
         <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
