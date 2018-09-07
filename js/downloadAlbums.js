@@ -4,7 +4,7 @@ function makeSingleAlbumZip(albumID, albumName) {
     var strURL = "downloadAlbum.php?AlbumID=" + albumID + "&AlbumName=" + albumName;
     var req = new XMLHttpRequest();
     if (req) {
-        req.onreadystatechange = function() {
+        req.onreadystatechange = function () {
             if (req.readyState == 4) {
                 // only if "OK"
                 if (req.status == 200) {
@@ -15,13 +15,17 @@ function makeSingleAlbumZip(albumID, albumName) {
                         $('#loaderModal').modal('toggle');
                     } else {
                         document.getElementById('divLoaderOuter').innerHTML =
-                                "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
-                        setTimeout(function(){                             
+                            "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function () {
                             $('#loaderModal').modal('toggle');
                         }, 3000);
                     }
                 } else {
-                    alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+                    document.getElementById('divLoaderOuter').innerHTML =
+                        "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                    setTimeout(function () {
+                        $('#loaderModal').modal('toggle');
+                    }, 3000);
                 }
             }
         }
@@ -29,6 +33,7 @@ function makeSingleAlbumZip(albumID, albumName) {
         req.send(null);
     }
 }
+
 function makeMultipleAlbumZip() {
     document.getElementById('divLoaderOuter').innerHTML = "<div id=\"divLoader\" class=\"loader\"></div><h4 id=\"loaderText\">Generating album's zip file</h4>";
     var allCheckboxes = document.getElementsByClassName('album-checkbox');
@@ -42,24 +47,28 @@ function makeMultipleAlbumZip() {
     var strURL = "downloadAlbum.php?AlbumIDs=" + selectedAlbums;
     var req = new XMLHttpRequest();
     if (req) {
-        req.onreadystatechange = function() {
+        req.onreadystatechange = function () {
             if (req.readyState == 4) {
                 // only if "OK"
                 if (req.status == 200) {
                     var resText = req.responseText;
                     var resArray = resText.split("_");
-                    if (resArray[0] === 'Success' || resArray[0].search('Success') != -1) {                        
+                    if (resArray[0] === 'Success' || resArray[0].search('Success') != -1) {
                         window.open(resArray[1], '_blank');
                         $('#loaderModal').modal('toggle');
                     } else {
                         document.getElementById('divLoaderOuter').innerHTML =
-                                "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
-                        setTimeout(function(){ 
-                            $('#loaderModal').modal('toggle');                            
+                            "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function () {
+                            $('#loaderModal').modal('toggle');
                         }, 3000);
                     }
                 } else {
-                    alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+                    document.getElementById('divLoaderOuter').innerHTML =
+                        "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                    setTimeout(function () {
+                        $('#loaderModal').modal('toggle');
+                    }, 3000);
                 }
             }
         }
@@ -67,6 +76,7 @@ function makeMultipleAlbumZip() {
         req.send(null);
     }
 }
+
 function makeAllAlbumZip() {
     document.getElementById('divLoaderOuter').innerHTML = "<div id=\"divLoader\" class=\"loader\"></div><h4 id=\"loaderText\">Generating album's zip file</h4>";
     var allCheckboxes = document.getElementsByClassName('album-checkbox');
@@ -80,7 +90,7 @@ function makeAllAlbumZip() {
     var strURL = "downloadAlbum.php?AlbumIDs=" + selectedAlbums;
     var req = new XMLHttpRequest();
     if (req) {
-        req.onreadystatechange = function() {
+        req.onreadystatechange = function () {
             if (req.readyState == 4) {
                 // only if "OK"
                 if (req.status == 200) {
@@ -93,13 +103,17 @@ function makeAllAlbumZip() {
                         $('#loaderModal').modal('toggle');
                     } else {
                         document.getElementById('divLoaderOuter').innerHTML =
-                                "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
-                        setTimeout(function(){ 
+                            "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function () {
                             $('#loaderModal').modal('toggle');
                         }, 3000);
                     }
                 } else {
-                    alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+                    document.getElementById('divLoaderOuter').innerHTML =
+                        "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                    setTimeout(function () {
+                        $('#loaderModal').modal('toggle');
+                    }, 3000);
                 }
             }
         }

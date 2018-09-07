@@ -28,12 +28,17 @@ function openCarousel(albumID) {
                         document.getElementById('divCarouselInner').innerHTML = resText;
                     } else {
                         document.getElementById('loaderText').innerHTML = "Something went wrong!<br> Please Try again."
+                        $('#loaderModal').modal('toggle');
                         setTimeout(() => {
                             $('#loaderModal').modal('toggle');
                         }, 3000);
                     }
                 } else {
-                    alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+                    document.getElementById('loaderText').innerHTML = "Something went wrong!<br> Please Try again."
+                    $('#loaderModal').modal('toggle');
+                    setTimeout(() => {
+                        $('#loaderModal').modal('toggle');
+                    }, 3000);
                 }
             }
         }

@@ -2,7 +2,7 @@ function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
     var ca = decodedCookie.split(';');
-    for(var i = 0; i <ca.length; i++) {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) == ' ') {
             c = c.substring(1);
@@ -35,13 +35,17 @@ function uploadToDrive(albumID, albumName) {
                                 $('#loaderModal').modal('toggle');
                             }, 3000);
                         } else {
-                            setTimeout(function(){ 
+                            setTimeout(function () {
                                 document.getElementById('divLoaderOuter').innerHTML =
                                     "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
                             }, 3000);
                         }
                     } else {
-                        alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+                        document.getElementById('divLoaderOuter').innerHTML =
+                            "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function () {
+                            $('#loaderModal').modal('toggle');
+                        }, 3000);
                     }
                 }
             }
@@ -80,13 +84,17 @@ function multipleUploadsToDrive() {
                                 $('#loaderModal').modal('toggle');
                             }, 3000);
                         } else {
-                            setTimeout(function(){ 
+                            setTimeout(function () {
                                 document.getElementById('divLoaderOuter').innerHTML =
                                     "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
                             }, 3000);
                         }
                     } else {
-                        alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+                        document.getElementById('divLoaderOuter').innerHTML =
+                            "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function () {
+                            $('#loaderModal').modal('toggle');
+                        }, 3000);
                     }
                 }
             }
@@ -123,13 +131,17 @@ function allUploadsToDrive() {
                                 $('#loaderModal').modal('toggle');
                             }, 3000);
                         } else {
-                            setTimeout(function(){ 
+                            setTimeout(function () {
                                 document.getElementById('divLoaderOuter').innerHTML =
                                     "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
                             }, 3000);
                         }
                     } else {
-                        alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+                        document.getElementById('divLoaderOuter').innerHTML =
+                            "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                        setTimeout(function () {
+                            $('#loaderModal').modal('toggle');
+                        }, 3000);
                     }
                 }
             }
