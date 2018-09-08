@@ -3,10 +3,6 @@ h1 {
   word-break: break-all;
 }
 
-body#login-body {
-  background-image: url('img/login_bg.jpg');
-}
-
 .google-login-outer {
   display: flex;
   justify-content: center;

@@ -1,7 +1,7 @@
 <?php
 
 require_once "./config.php";
-ini_set('max_execution_time', 300);//for 300 seconds
+ini_set('max_execution_time', '0');//for 0 seconds
 
 /* Funtion that Create zip of an Album with Images */
 
