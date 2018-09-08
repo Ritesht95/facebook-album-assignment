@@ -35,7 +35,7 @@
 
     Note – Before submitting your challenge for review, please add Facebook profile with username ‘rtc.test‘ as tester while your app is in development mode. This will expedite the review process.
 
-## Link to the Live Project: https://fbalbumrtcamp.000webhostapp.com/
+## Link to the Live Project: https://facebookalbums.herokuapp.com/
 ## Github Project Link: https://github.com/Ritesht95/facebook-album-assignment
 
 # User guide
