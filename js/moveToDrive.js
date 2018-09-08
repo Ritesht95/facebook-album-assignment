@@ -21,7 +21,7 @@ function uploadToDrive(albumID, albumName) {
     } else {
         $('#loaderModal').modal('toggle');
         document.getElementById('loaderText').innerText = "Moving album to drive";
-        var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID + "&albumName=" + albumName;
+        var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID + "&albumName=" + albumName + "&reqType=single";
         var req = new XMLHttpRequest();
         if (req) {
             req.onreadystatechange = function () {
@@ -70,7 +70,7 @@ function multipleUploadsToDrive() {
     } else {
         $('#loaderModal').modal('toggle');
         document.getElementById('loaderText').innerText = "Moving selected albums to drive";
-        var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums;
+        var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums  + "&reqType=multiple";
         var req = new XMLHttpRequest();
         if (req) {
             req.onreadystatechange = function () {
@@ -117,7 +117,7 @@ function allUploadsToDrive() {
     } else {
         document.getElementById('loaderText').innerText = "Moving all albums to drive";
         $('#loaderModal').modal('toggle');
-        var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums;
+        var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums  + "&reqType=multiple";
         var req = new XMLHttpRequest();
         if (req) {
             req.onreadystatechange = function () {

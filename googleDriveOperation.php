@@ -6,8 +6,10 @@ require_once './lib/google-api-php-client/src/Google/Service/Oauth2.php';
 require_once './lib/google-api-php-client/src/Google/Service/Drive.php';
 require_once './lib/googleDrive_Functions.php';
 
+$reqType= $_REQUEST['reqType'];
+
 /* Single Album Move to Drive */
-if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
+if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName']) && $reqType == "single") {
 
     // Init the variables
     $driveInfo = "";
@@ -66,7 +68,7 @@ if (isset($_REQUEST['uploadAlbum']) && isset($_REQUEST['albumName'])) {
 /* Single Album Move to Drive */
 
 /* Multiple/All Albums move to drive */
-if (isset($_REQUEST['uploadAlbums'])) {
+if (isset($_REQUEST['uploadAlbums']) && $reqType == "multiple") {
     // Init the variables
     $driveInfo = "";
     $folderName = "";
