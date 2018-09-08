@@ -3,6 +3,3 @@
 php_value display_errors 1
 # DO NOT REMOVE OR MODIFY THIS LINE AND THE LINES ABOVE HTID:6504322:
 
-<IfModule mod_php5.c>
-php_value max_execution_time 0
-</IfModule>
