@@ -57,6 +57,9 @@ try {
         $arrAlbumIDs = explode('_', $_REQUEST['AlbumIDs']);
         $zipFilesPath = "Success";
         $zip = new ZipArchive();
+        if (!file_exists("downloads")) {
+            mkdir("downloads");
+        }
         if (file_exists("downloads/MultipleAlbums.zip")) {
             unlink("downloads/MultipleAlbums.zip");
         }
