@@ -21,7 +21,7 @@ function uploadToDrive(albumID, albumName) {
     } else {
         $('#loaderModal').modal('toggle');
         document.getElementById('loaderText').innerText = "Moving album to drive";
-        var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID + "&albumName=" + albumName + "&reqType=single";
+        var strURL = "googleDriveOperation.php?uploadAlbum=" + albumID + "&albumName=" + albumName;
         var req = new XMLHttpRequest();
         if (req) {
             req.onreadystatechange = function () {
@@ -38,6 +38,7 @@ function uploadToDrive(albumID, albumName) {
                             setTimeout(function () {
                                 document.getElementById('divLoaderOuter').innerHTML =
                                     "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                                    $('#loaderModal').modal('toggle');
                             }, 3000);
                         }
                     } else {
@@ -70,7 +71,7 @@ function multipleUploadsToDrive() {
     } else {
         $('#loaderModal').modal('toggle');
         document.getElementById('loaderText').innerText = "Moving selected albums to drive";
-        var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums  + "&reqType=multiple";
+        var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums;
         var req = new XMLHttpRequest();
         if (req) {
             req.onreadystatechange = function () {
@@ -87,6 +88,7 @@ function multipleUploadsToDrive() {
                             setTimeout(function () {
                                 document.getElementById('divLoaderOuter').innerHTML =
                                     "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                                    $('#loaderModal').modal('toggle');
                             }, 3000);
                         }
                     } else {
@@ -117,7 +119,7 @@ function allUploadsToDrive() {
     } else {
         document.getElementById('loaderText').innerText = "Moving all albums to drive";
         $('#loaderModal').modal('toggle');
-        var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums  + "&reqType=multiple";
+        var strURL = "googleDriveOperation.php?uploadAlbums=" + selectedAlbums;
         var req = new XMLHttpRequest();
         if (req) {
             req.onreadystatechange = function () {
@@ -134,6 +136,7 @@ function allUploadsToDrive() {
                             setTimeout(function () {
                                 document.getElementById('divLoaderOuter').innerHTML =
                                     "<span class=\"fa fa-3x fa-times load-complete-icon text-danger\"></span><h4 id=\"loaderText\">Oops! Something went wrong.</h4>";
+                                    $('#loaderModal').modal('toggle');
                             }, 3000);
                         }
                     } else {

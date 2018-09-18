@@ -68,9 +68,10 @@ function getAlbumCover($fb, $albumID)
 /* Gets All Images of given AlbumID */
 function getAllAlbumImages($fb, $albumID)
 {
+    $allImages = array();
     try {
         $response = $fb->get(
-            '/'.$albumID.'/photos?limit=500',
+            '/'.$albumID.'?fields=name,photos.limit(500){images}',
             $_SESSION['fb_access_token']
         );
     } catch (Facebook\Exceptions\FacebookResponseException $e) {
@@ -80,8 +81,8 @@ function getAllAlbumImages($fb, $albumID)
         echo 'Facebook SDK returned an error: ' . $e->getMessage();
         exit;
     }
-    $allImages = $response->getGraphEdge();
-
+    
+    $allImages = $response->getGraphNode();
     return $allImages;
 }
 /* Gets All Images of given AlbumID */
@@ -118,35 +119,3 @@ function getCoverImageDetails($fb, $albumCover)
     return $coverImage;
 }
 /* Gets Details of given Cover Image ID */
-
-/* Gets Details of given Image ID */
-function getImageDetails($fb, $image)
-{
-    try {
-        if (count($image) > 0) {
-            $response = $fb->get(
-                '/'.$image['id'].'?fields=name,id,created_time,images',
-                $_SESSION['fb_access_token']
-            );
-        }
-    } catch (Facebook\Exceptions\FacebookResponseException $e) {
-        return null;
-    } catch (Facebook\Exceptions\FacebookSDKException $e) {
-        echo 'Facebook SDK returned an error: ' . $e->getMessage();
-        exit;
-    } catch (Exception $e) {
-        return null;
-    }
-    try {
-        if (count($image) > 0) {
-            $coverImage = $response->getGraphNode();
-        } else {
-            return null;
-        }
-    } catch (Exception $e) {
-        return null;
-    }
-
-    return $coverImage;
-}
-/* Gets Details of given Image ID */

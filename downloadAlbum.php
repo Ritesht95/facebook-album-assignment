@@ -1,7 +1,6 @@
 <?php
 
 require_once "./config.php";
-ini_set('max_execution_time', '0');//for 0 seconds
 
 /* Funtion that Create zip of an Album with Images */
 
@@ -22,9 +21,8 @@ function CreateAlbumZip($albumID, $fb, $albumName = "")
         if ($zipArchive->open('downloads/'.$zipFile, ZIPARCHIVE::CREATE) != true) {
             die("Couldn't generate zip file");
         }
-        for ($i=0; $i < count($allImages); $i++) {
-            $imageDetails = getImageDetails($fb, $allImages[$i]);
-            $zipArchive->addFromString($i.".jpg", file_get_contents($imageDetails['images'][1]['source']));
+        for ($i=0; $i < count($allImages['photos']); $i++) {            
+            $zipArchive->addFromString($i.".jpg", file_get_contents($allImages['photos'][$i]['images'][1]['source']));
         }
         $zipArchive->close();
         return $zipFile;
@@ -70,11 +68,10 @@ try {
             $album_ID_Name = explode('-', $albumID);
             $zip->addEmptyDir($album_ID_Name[1]);
             $allImages = getAllAlbumImages($fb, $album_ID_Name[0]);
-            for ($i=0; $i < count($allImages); $i++) {
-                $imageDetails = getImageDetails($fb, $allImages[$i]);
+            for ($i=0; $i < count($allImages['photos']); $i++) {                
                 $zip->addFromString(
                     $album_ID_Name[1]."/".$i.".jpg",
-                    file_get_contents($imageDetails['images'][1]['source'])
+                    file_get_contents($allImages['photos'][$i]['images'][1]['source'])
                 );
             }
         }
@@ -92,13 +89,12 @@ try {
 try {
     if (isset($_REQUEST['AlbumIDForSlider'])) {
         $allImages = getAllAlbumImages($fb, $_REQUEST['AlbumIDForSlider']);
-        for ($i=0; $i < count($allImages); $i++) {
-            $imageDetails = getImageDetails($fb, $allImages[$i]);
+        for ($i=0; $i < count($allImages['photos']); $i++) {
             if ($i == 0) {
                 echo "<div class=\"carousel-item active\" style=\"border: 1px solid;\">
                                 <div class=\"img\">
                                     <div class=\"single-slide-div\" style=\"border:1px solid;\">
-                                        <img src=".$imageDetails['images'][1]['source']." class=\"carousel-img img-responsive\">
+                                        <img src=".$allImages['photos'][$i]['images'][1]['source']." class=\"carousel-img img-responsive\">
                                     </div>
                                 </div>
                             </div>";
@@ -106,7 +102,7 @@ try {
                 echo "<div class=\"carousel-item\" style=\"border: 1px solid;\">
                             <div class=\"img\">
                                 <div class=\"single-slide-div\">
-                                    <img src=".$imageDetails['images'][1]['source']." class=\"carousel-img img-responsive\">
+                                    <img src=".$allImages['photos'][$i]['images'][1]['source']." class=\"carousel-img img-responsive\">
                                 </div>
                             </div>
                         </div>";
